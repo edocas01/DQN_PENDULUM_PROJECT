@@ -7,7 +7,6 @@ This repository contains the code developed by Edoardo Castioni and Simone Manfr
 ## Link Overleaf
 [_report_](https://www.overleaf.com/project/64243cc0c2ce2f6af328e99f)
 
-MI PARE VADA CRIBBIO
 
 
 
