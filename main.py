@@ -7,4 +7,5 @@ from tensorflow.keras import layers
 
 # import dependencies
 from Classes import disc_pendulum
-import config
+
+
