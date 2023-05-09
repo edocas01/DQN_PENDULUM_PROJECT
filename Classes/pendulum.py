@@ -172,7 +172,8 @@ class Pendulum:
             # integration of the acceleration
             q    += (v+0.5*DT*a)*DT
             v    += a*DT
-            # definition of the cost function
+            # definition of the cost function:
+            # we desire to be in the upright position with zero velocity and zero torque ideally
             cost += (sumsq(q) + 1e-1*sumsq(v) + 1e-3*sumsq(u))*DT # cost function
 
             if display:
