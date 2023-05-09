@@ -169,9 +169,10 @@ class Pendulum:
             a   = inv(M)*(u-self.Kf*v-b)
             a   = a.reshape(self.nv) + np.random.randn(self.nv)*self.noise_stddev
             self.a = a
-
+            # integration of the acceleration
             q    += (v+0.5*DT*a)*DT
             v    += a*DT
+            # definition of the cost function
             cost += (sumsq(q) + 1e-1*sumsq(v) + 1e-3*sumsq(u))*DT # cost function
 
             if display:
