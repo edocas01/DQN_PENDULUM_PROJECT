@@ -15,7 +15,7 @@ class DPendulum:
         self.pendulum.vmax = vMax
         self.pendulum.umax = uMax
         self.nx = self.pendulum.nx # state dimension
-        self.nv = self.pendulum.nv
+        # self.nv = self.pendulum.nv -> NOT USED??
         self.vMax = vMax    # Max velocity (v in [-vmax,vmax])
         self.nu = nu        # Number of discretization steps for joint torque
         self.uMax = uMax    # Max torque (u in [-umax,umax])

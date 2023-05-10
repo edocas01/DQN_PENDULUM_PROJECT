@@ -60,8 +60,8 @@ class Pendulum:
         self.DT         = 5e-2   # Time step length
         self.NDT        = 1      # Number of Euler steps per integration (internal)
         self.Kf         = .10    # Friction coefficient
-        self.vmax       = 8.0    # Max velocity (clipped if larger)
-        self.umax       = 2.0    # Max torque   (clipped if larger)
+        self.vmax       = 0    # Max velocity (clipped if larger) -> defined in disc_pendulum.py
+        self.umax       = 0    # Max torque   (clipped if larger) -> defined in disc_pendulum.py
         self.withSinCos = False  # If true, state is [cos(q),sin(q),qdot], else [q,qdot]
 
     def createPendulum(self, nbJoint, rootId=0, prefix='', jointPlacement=None):
