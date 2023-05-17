@@ -144,13 +144,19 @@ class DQN:
 		dim_x = config.state_dim
 		dim_u = config.actuator_dim
 		# extract the data from the mini batch
-		mini_batch = np.asarray(mini_batch, dtype = object)
-		x_batch = mini_batch[:,0:1]
-		u_batch = mini_batch[:,1:1+dim_u]
-		r_batch = mini_batch[:,1+dim_u:1+dim_u+1]
-		x_batch_next = mini_batch[:,1+dim_u+1:]
+		# mini_batch = np.asarray(mini_batch, dtype = object)
+		# x_batch = mini_batch[:,0:1]
+		# u_batch = mini_batch[:,1:1+dim_u]
+		# r_batch = mini_batch[:,1+dim_u:1+dim_u+1]
+		# x_batch_next = mini_batch[:,1+dim_u+1:]
+		x_batch, u_batch, cost_batch, x_batch_next = list(zip(*mini_batch))
+		u_batch_next = np.empty(config.MINI_BATCH_SIZE)
+
+		x_batch = np.concatenate([x_batch],axis=1).T
+		u_batch = np.asarray(u_batch)
+		cost_batch = np.asarray(cost_batch)
 		# compute the max u' according to the Q_target function for each x' in the mini batch
-		u_batch_next = np.zeros((config.MINI_BATCH_SIZE, config.actuator_dim))
+		# u_batch_next = np.zeros((config.MINI_BATCH_SIZE, config.actuator_dim))
 		for i in range(config.MINI_BATCH_SIZE):
 			_,u_batch_next[i] = self.get_input_greedy_Q_target(x_batch_next[i])
 		
