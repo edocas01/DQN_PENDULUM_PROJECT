@@ -39,7 +39,7 @@ class DQN:
 			# increase nep
 			nep += 1
 			# initialize the time for the episode
-			time = time.time()
+			time_passed = time.time()
    
 			# reset the state of the pendulum
 			self.dpendulum.reset()
@@ -53,7 +53,7 @@ class DQN:
         # get the action according to the epsilon greedy policy
 				u_idx, u = self.get_input_greedy_Q(x)
 				# apply the action to the pendulum
-				x_next, r = self.dpendulum.step(u_idx) # it updates also x
+				x_next, r = self.dpendulum.step([u_idx]) # it updates also x
     
 				# store the transition in the buffer
 				self.buffer.store_experience(x, u, r, x_next)
@@ -74,9 +74,9 @@ class DQN:
 				gamma *= config.DISCOUNT
 
 			# compute the time for the episode
-			time = round(time.time() - time,3)
+			time_passed = round(time.time() - time_passed,3)
 			# update the total training time
-			total_training_time += time
+			total_training_time += time_passed
 
 			# print the results
 			print("Episode: ", i, " Reward: ", reward, " Time: ", time, " Epsilon: ", self.epsilon)
@@ -94,6 +94,7 @@ class DQN:
 		# get the action according to the epsilon greedy policy
 		if np.random.rand() < self.epsilon:
 			u_index = np.random.randint(0, config.dnu)
+			input_max = self.dpendulum.d2cu(u_index)
 		else:
 			# get the action according to the Q function 
 			# compute the best Q value according to the x and u given as input
@@ -105,6 +106,9 @@ class DQN:
 				input = self.dpendulum.d2cu(i)
 				# concatenate the state and the input
 				xu = np.append(x, input)
+
+				# convert the input to a tensor
+				xu = self.NN.np2tf(xu)
 				Q_value = self.NN.Q(xu) # or xu.T? 
 				if Q_value > Q_value_max:
 					Q_value_max = Q_value
@@ -125,7 +129,9 @@ class DQN:
 			input = self.dpendulum.d2cu(i)
 			# concatenate the state and the input
 			xu = np.append(x, input)
-			Q_target_value = self.NN.Q_target(xu) # or xu.T? 
+			# convert the input to a tensor
+			xu = self.NN.np2tf(xu) # or xu.T? 
+			Q_target_value = self.NN.Q_target(xu) 
 			if Q_target_value > Q_target_value_max:
 				Q_target_value_max = Q_target_value
 				u_index = i
@@ -138,10 +144,11 @@ class DQN:
 		dim_x = config.state_dim
 		dim_u = config.actuator_dim
 		# extract the data from the mini batch
-		x_batch = mini_batch[:,0:dim_x]
-		u_batch = mini_batch[:,dim_x:dim_x+dim_u]
-		r_batch = mini_batch[:,dim_x+dim_u:dim_x+dim_u+1]
-		x_batch_next = mini_batch[:,dim_x+dim_u+1:]
+		mini_batch = np.asarray(mini_batch, dtype = object)
+		x_batch = mini_batch[:,0:1]
+		u_batch = mini_batch[:,1:1+dim_u]
+		r_batch = mini_batch[:,1+dim_u:1+dim_u+1]
+		x_batch_next = mini_batch[:,1+dim_u+1:]
 		# compute the max u' according to the Q_target function for each x' in the mini batch
 		u_batch_next = np.zeros((config.MINI_BATCH_SIZE, config.actuator_dim))
 		for i in range(config.MINI_BATCH_SIZE):
@@ -151,7 +158,11 @@ class DQN:
 		xu = (np.append(x_batch, u_batch, axis=1)).T
 		# create the inputs for the Q_target function
 		xu_next = (np.append(x_batch_next, u_batch_next, axis=1)).T
-  
+
+		# convert the inputs to tensors
+		xu = self.NN.np2tf(xu)
+		xu_next = self.NN.np2tf(xu_next)
+
 		# update the Q function
 		self.NN.update(xu, r_batch, xu_next)
 		

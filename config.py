@@ -21,7 +21,7 @@ if TYPE_PENDULUM == 0:
     
     NUM_EPISODE = 1000 			            # number of episodes
     LENGTH_EPISODE = 1000 		            # length of episode
-    C_UPDATES = 300							# number of steps before updating the target network
+    C_UPDATE = 300							# number of steps before updating the target network
     
     EXPLORATION_PROB = 1.0 		            # exploration probability
     EXPLORATION_MIN_PROB = 0.001            # minimum exploration probability

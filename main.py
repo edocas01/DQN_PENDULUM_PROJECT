@@ -13,4 +13,7 @@ from Classes.Network import Network
 
 DQN_Agent = DQN()
 
+# run the algorithm
+DQN_Agent.algorithm()
+
 
