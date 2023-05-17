@@ -8,7 +8,7 @@ class DPendulum:
         with the specified steps. Joint velocity and torque are saturated. 
         Guassian noise can be added in the dynamics. 
     '''
-    def __init__(self, nbJoint = 1, nu=11, vMax=5, uMax=5, dt=0.2, ndt=1, noise_stddev=0):
+    def __init__(self, nbJoint = 1, dnu=11, vMax=5, uMax=5, dt=0.2, ndt=1, noise_stddev=0):
         self.pendulum = Pendulum(nbJoint,noise_stddev)
         self.pendulum.DT  = dt
         self.pendulum.NDT = ndt
@@ -16,11 +16,11 @@ class DPendulum:
         self.pendulum.umax = uMax
         self.nx = self.pendulum.nx # state dimension
         # self.nv = self.pendulum.nv -> NOT USED??
-        self.vMax = vMax    # Max velocity (v in [-vmax,vmax])
-        self.nu = nu        # Number of discretization steps for joint torque
-        self.uMax = uMax    # Max torque (u in [-umax,umax])
-        self.dt = dt        # time step
-        self.DU = 2*uMax/nu # discretization resolution for joint torque
+        self.vMax = vMax     # Max velocity (v in [-vmax,vmax])
+        self.dnu = dnu       # Number of discretization steps for joint torque
+        self.uMax = uMax     # Max torque (u in [-umax,umax])
+        self.dt = dt         # time step
+        self.DU = 2*uMax/dnu # discretization resolution for joint torque
 
     # Continuous to discrete joint torque (not really used, only in initialization for double pendulum)
     def c2du(self, u):
@@ -29,7 +29,7 @@ class DPendulum:
     
     # Discrete to continuous joint torque
     def d2cu(self, iu):
-        iu = np.clip(iu,0,self.nu-1) - (self.nu-1)/2
+        iu = np.clip(iu,0,self.dnu-1) - (self.dnu-1)/2
         return iu*self.DU
 
     def reset(self,x=None):
@@ -48,6 +48,8 @@ class DPendulum:
         self.pendulum.display(np.array([q,]))
         time.sleep(self.pendulum.DT)
 
+    
+    # TO BE REDEFINED
     def plot_V_table(self, V, x):
         ''' Plot the given Value table V '''
         import matplotlib.pyplot as plt

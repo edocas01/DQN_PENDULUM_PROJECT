@@ -4,7 +4,27 @@ TYPE_PENDULUM = 0 # 0: simple pendulum, 1: double pendulum
 
 # Single pendulum parameters
 if TYPE_PENDULUM == 0:
-
+    # Environment parameters
+    
+    nbjoint = 1 	# number of joints
+    dnu = 15 		# discretization of the torque
+    vMax = 2.0 		# max velocity
+    uMax = 5.0 		# max torque
+    state_dim = 2 	# state dimension
+    
+    # DQN parameters
+    DISCOUNT = 0.99 			            # discount factor
+    QVALUE_LEARNING_RATE = 0.001            # learning rate
+    BUFFER_SIZE = 100000 		            # replay buffer size
+    MINI_BATCH_SIZE = 64 		            # mini batch size
+    NUM_EPISODE = 1000 			            # number of episodes
+    LENGTH_EPISODE = 1000 		            # length of episode
+    EXPLORATION_PROB = 1.0 		            # exploration probability
+    EXPLORATION_MIN_PROB = 0.001            # minimum exploration probability
+    EXPL0RATION_DECREASING_DECAY = 0.001    # exploration decreasing decay
 
 else:
-# Double pendulum parameters
+	# Double pendulum parameters
+	nbjoint = 2 	# number of joints
+
+actuator_dim = 1 	# actuator dimension
