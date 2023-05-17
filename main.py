@@ -5,12 +5,12 @@ import tensorflow as tf
 from tensorflow.keras import layers
 
 # import dependencies
-from Classes import disc_pendulum
-from Classes import Dqn
-from Classes import Buffer
-from Classes import Network
+from Classes.disc_pendulum import DPendulum
+from Classes.Dqn import DQN
+from Classes.Buffer import Buffer
+from Classes.Network import Network
 
 
-DQN_Agent = Dqn.DQN()
+DQN_Agent = DQN()
 
 

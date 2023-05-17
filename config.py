@@ -6,7 +6,7 @@ TYPE_PENDULUM = 0 # 0: simple pendulum, 1: double pendulum
 if TYPE_PENDULUM == 0:
     # Environment parameters
     
-    nbjoint = 1 	# number of joints
+    nbJoint = 1 	# number of joints
     dnu = 15 		# discretization of the torque
     vMax = 2.0 		# max velocity
     uMax = 5.0 		# max torque
@@ -29,6 +29,6 @@ if TYPE_PENDULUM == 0:
 
 else:
 	# Double pendulum parameters
-	nbjoint = 2 	# number of joints
+	nbJoint = 2 	# number of joints
 
 actuator_dim = 1 	# actuator dimension

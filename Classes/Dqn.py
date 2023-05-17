@@ -1,6 +1,6 @@
-from Network import Network
-from Buffer import Buffer
-from disc_pendulum import DPendulum
+from Classes.Network import Network
+from Classes.Buffer import Buffer
+from Classes.disc_pendulum import DPendulum
 import numpy as np
 from numpy.random import randint
 import config

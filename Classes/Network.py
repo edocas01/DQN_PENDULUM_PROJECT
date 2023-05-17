@@ -13,6 +13,10 @@ class Network:
   the action is a scalar (only first joint actuated).
   '''
   def __init__(self, nx, nu, DISCOUNT, QVALUE_LEARNING_RATE):
+    # dimension of the state and action vectors
+    self.nx = nx # dimension of the state vector (2 or 4)
+    self.nu = nu # dimension of the action vector (1)
+
     # initialize the Q and Q_target networks
     self.Q = self.get_critic()
     self.Q_target = self.get_critic()
@@ -20,9 +24,6 @@ class Network:
     # Set initial weights of targets equal to those of the critic
     self.Q_target.set_weights(self.Q.get_weights())
     
-    # dimension of the state and action vectors
-    self.nx = nx # dimension of the state vector (2 or 4)
-    self.nu = nu # dimension of the action vector (1)
     
     # parameters for the training
     self.DISCOUNT = DISCOUNT

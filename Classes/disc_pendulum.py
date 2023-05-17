@@ -1,4 +1,4 @@
-from pendulum import Pendulum
+from Classes.pendulum import Pendulum
 import numpy as np
 from numpy import pi
 import time
