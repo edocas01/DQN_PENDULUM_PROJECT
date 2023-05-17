@@ -104,12 +104,13 @@ class DQN:
 			for i in range(config.dnu):
 				# compute the "continuous" input
 				input = self.dpendulum.d2cu(i)
-				# concatenate the state and the input
-				xu = np.append(x, input)
-
+				# concatenate the state and the input: get_critic needs 3 rows and 1 column
+				xu = np.reshape(np.append(x, input), (self.dpendulum.pendulum.nx+1,self.dpendulum.dnu))
+				print(xu)
 				# convert the input to a tensor
 				xu = self.NN.np2tf(xu)
-				Q_value = self.NN.Q(xu) # or xu.T? 
+				Q_value = self.NN.Q.predict(xu) # or xu.T? 
+				print(Q_value)
 				if Q_value > Q_value_max:
 					Q_value_max = Q_value
 					u_index = i
@@ -128,10 +129,13 @@ class DQN:
 			# compute the "continuous" input
 			input = self.dpendulum.d2cu(i)
 			# concatenate the state and the input
-			xu = np.append(x, input)
+			# xu = np.append(x, input)
+			xu = np.reshape(np.append(x, input), (self.dpendulum.pendulum.nx+1,1))
+			print(xu)
 			# convert the input to a tensor
 			xu = self.NN.np2tf(xu) # or xu.T? 
 			Q_target_value = self.NN.Q_target(xu) 
+			print(Q_target_value)
 			if Q_target_value > Q_target_value_max:
 				Q_target_value_max = Q_target_value
 				u_index = i
@@ -154,7 +158,7 @@ class DQN:
 
 		x_batch = np.concatenate([x_batch],axis=1).T
 		u_batch = np.asarray(u_batch)
-		cost_batch = np.asarray(cost_batch)
+		r_batch = np.asarray(cost_batch)
 		# compute the max u' according to the Q_target function for each x' in the mini batch
 		# u_batch_next = np.zeros((config.MINI_BATCH_SIZE, config.actuator_dim))
 		for i in range(config.MINI_BATCH_SIZE):
