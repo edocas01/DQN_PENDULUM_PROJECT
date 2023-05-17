@@ -22,7 +22,7 @@ class DPendulum:
         self.dt = dt        # time step
         self.DU = 2*uMax/nu # discretization resolution for joint torque
 
-    # Continuous to discrete joint torque (not really used, only in initialization)
+    # Continuous to discrete joint torque (not really used, only in initialization for double pendulum)
     def c2du(self, u):
         u = np.clip(u,-self.uMax+1e-3,self.uMax-1e-3)
         return int(np.floor((u+self.uMax)/self.DU))
