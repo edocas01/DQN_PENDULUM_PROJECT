@@ -18,6 +18,7 @@ def tf2np(y):
 
 def get_critic(nx, nu):
     ''' Create the neural network to represent the Q function '''
+    # inputs = layers.Input(shape=(1,nx+nu))
     inputs = layers.Input(shape=(nx+nu,1))
     state_out1 = layers.Dense(16, activation="relu")(inputs) 
     state_out2 = layers.Dense(32, activation="relu")(state_out1) 

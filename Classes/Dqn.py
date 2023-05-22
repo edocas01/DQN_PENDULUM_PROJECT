@@ -50,7 +50,7 @@ class DQN:
 				# get the state of the pendulum
 				x = self.dpendulum.x
     
-        # get the action according to the epsilon greedy policy
+        		# get the action according to the epsilon greedy policy
 				u_idx, u = self.get_input_greedy_Q(x)
 				# apply the action to the pendulum
 				x_next, r = self.dpendulum.step([u_idx]) # it updates also x
@@ -104,7 +104,7 @@ class DQN:
 			for i in range(config.dnu):
 				# compute the "continuous" input
 				input = self.dpendulum.d2cu(i)
-				# concatenate the state and the input: get_critic needs 3 rows and 1 column
+				# concatenate the state and the input: get_critic needs 3 (state and input) rows and 1 column
 				xu = np.reshape(np.append(x, input), (self.dpendulum.pendulum.nx+1,self.dpendulum.dnu))
 				print(xu)
 				# convert the input to a tensor
@@ -131,11 +131,9 @@ class DQN:
 			# concatenate the state and the input
 			# xu = np.append(x, input)
 			xu = np.reshape(np.append(x, input), (self.dpendulum.pendulum.nx+1,1))
-			print(xu)
 			# convert the input to a tensor
 			xu = self.NN.np2tf(xu) # or xu.T? 
 			Q_target_value = self.NN.Q_target(xu) 
-			print(Q_target_value)
 			if Q_target_value > Q_target_value_max:
 				Q_target_value_max = Q_target_value
 				u_index = i
