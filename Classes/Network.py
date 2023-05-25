@@ -43,7 +43,7 @@ class Network:
   
   # Create the neural network to represent the Q function
   def get_critic(self):
-    inputs = layers.Input(shape=(self.nx+self.nu,1))
+    inputs = layers.Input(shape=(self.nx+self.nu,)) # leave "," to have as output a tensor of shape (None, 1)
     state_out1 = layers.Dense(16, activation="relu")(inputs) 
     state_out2 = layers.Dense(32, activation="relu")(state_out1) 
     state_out3 = layers.Dense(64, activation="relu")(state_out2) 
