@@ -16,8 +16,8 @@ class Buffer:
     self.buffer = deque(maxlen=buffer_size)
   
   # insert a transition in the buffer
-  def store_experience(self, x, u, r, x_nest):
-    self.buffer.append((x, u, r, x_nest))
+  def store_experience(self, x, u, r, x_next):
+    self.buffer.append((x, u, r, x_next))
     
   def sample_mini_batch(self):
     # sample a random mini batch of transitions

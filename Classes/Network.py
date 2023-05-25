@@ -30,7 +30,7 @@ class Network:
     # parameters for the training
     self.DISCOUNT = DISCOUNT
     self.critic_optimizer = tf.keras.optimizers.Adam(QVALUE_LEARNING_RATE)
-    
+     
 
   # convert from numpy to tensorflow
   def np2tf(self,y):

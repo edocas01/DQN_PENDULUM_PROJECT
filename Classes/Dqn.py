@@ -109,7 +109,7 @@ class DQN:
 				print(xu)
 				# convert the input to a tensor
 				xu = self.NN.np2tf(xu)
-				Q_value = self.NN.Q.predict(xu) # or xu.T? 
+				Q_value = self.NN.Q.predict(xu)
 				print(Q_value)
 				if Q_value > Q_value_max:
 					Q_value_max = Q_value
@@ -132,8 +132,12 @@ class DQN:
 			# xu = np.append(x, input)
 			xu = np.reshape(np.append(x, input), (self.dpendulum.pendulum.nx+1,1))
 			# convert the input to a tensor
-			xu = self.NN.np2tf(xu) # or xu.T? 
+			xu = self.NN.np2tf(xu)
+			# compute the Q_target value from the Q_target function
 			Q_target_value = self.NN.Q_target(xu) 
+   			# convert the tensor to a numpy value 
+			Q_target_value = self.NN.tf2np(Q_target_value)
+
 			if Q_target_value > Q_target_value_max:
 				Q_target_value_max = Q_target_value
 				u_index = i
@@ -146,19 +150,15 @@ class DQN:
 		dim_x = config.state_dim
 		dim_u = config.actuator_dim
 		# extract the data from the mini batch
-		# mini_batch = np.asarray(mini_batch, dtype = object)
-		# x_batch = mini_batch[:,0:1]
-		# u_batch = mini_batch[:,1:1+dim_u]
-		# r_batch = mini_batch[:,1+dim_u:1+dim_u+1]
-		# x_batch_next = mini_batch[:,1+dim_u+1:]
-		x_batch, u_batch, cost_batch, x_batch_next = list(zip(*mini_batch))
-		u_batch_next = np.empty(config.MINI_BATCH_SIZE)
+		x_batch, u_batch, r_batch, x_batch_next = list(zip(*mini_batch))
+		# u_batch_next = np.empty(config.MINI_BATCH_SIZE)
 
 		x_batch = np.concatenate([x_batch],axis=1).T
+		x_batch = np.reshape(x_batch_next, (dim_x,np.size(mini_batch,0)))
 		u_batch = np.asarray(u_batch)
-		r_batch = np.asarray(cost_batch)
+		r_batch = np.asarray(r_batch)
 		# compute the max u' according to the Q_target function for each x' in the mini batch
-		# u_batch_next = np.zeros((config.MINI_BATCH_SIZE, config.actuator_dim))
+		u_batch_next = np.zeros((config.MINI_BATCH_SIZE, config.actuator_dim))
 		for i in range(config.MINI_BATCH_SIZE):
 			_,u_batch_next[i] = self.get_input_greedy_Q_target(x_batch_next[i])
 		
