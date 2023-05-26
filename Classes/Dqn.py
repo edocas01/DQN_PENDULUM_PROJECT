@@ -49,7 +49,7 @@ class DQN:
 				C += 1
 				# get the state of the pendulum
 				x = self.dpendulum.x
-    
+				self.dpendulum.render()
         		# get the action according to the epsilon greedy policy
 				u_idx, u = self.get_input_greedy_Q(x)
 				# apply the action to the pendulum

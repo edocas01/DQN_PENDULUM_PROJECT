@@ -20,7 +20,7 @@ if TYPE_PENDULUM == 0:
     MIN_EXPERIENCE_BUFFER_SIZE = 100        # minimum experience buffer size
     
     NUM_EPISODE = 100			            # number of episodes
-    LENGTH_EPISODE = 10		            # length of episode
+    LENGTH_EPISODE = 100		            # length of episode
     C_UPDATE = 300							# number of steps before updating the target network
     
     EXPLORATION_MIN_PROB = 0.001            # minimum exploration probability
