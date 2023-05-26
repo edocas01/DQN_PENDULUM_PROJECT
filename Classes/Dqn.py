@@ -79,14 +79,14 @@ class DQN:
 			total_training_time += time_passed
 
 			# print the results
-			print("Episode: ", i, " Reward: ", reward, " Time: ", time, " Epsilon: ", self.epsilon)
+			print("Episode: ", i, " Reward: {:.4g}".format(reward), " Time: ", time_passed, " Epsilon: {:.4g}".format(self.epsilon))
    
 			# append the total reward to the history
 			total_reward_history.append(reward)
 
 			# decrease the exploration probability
 			self.epsilon = np.exp(-config.EXPL0RATION_DECREASING_DECAY*nep)
-			self.epsilon = max(config.EXPLORATION_PROB, config.EXPLORATION_MIN_PROB)
+			self.epsilon = max(self.epsilon, config.EXPLORATION_MIN_PROB)
 			
 	
   # get greedy input for the Q function        
@@ -105,12 +105,13 @@ class DQN:
 				# compute the "continuous" input
 				input = self.dpendulum.d2cu(i)
 				# concatenate the state and the input: get_critic needs 3 (state and input) rows and 1 column
-				xu = np.reshape(np.append(x, input), (self.dpendulum.pendulum.nx+1,self.dpendulum.dnu))
-				print(xu)
+				xu = np.reshape(np.append(x, input), (self.dpendulum.pendulum.nx+1,config.actuator_dim))
 				# convert the input to a tensor
 				xu = self.NN.np2tf(xu)
-				Q_value = self.NN.Q.predict(xu)
-				print(Q_value)
+				# compute the Q value from the Q_ function
+				Q_value = self.NN.Q(xu)
+    			# convert the tensor to a numpy value 
+				Q_value = self.NN.tf2np(Q_value)
 				if Q_value > Q_value_max:
 					Q_value_max = Q_value
 					u_index = i
@@ -130,7 +131,7 @@ class DQN:
 			input = self.dpendulum.d2cu(i)
 			# concatenate the state and the input
 			# xu = np.append(x, input)
-			xu = np.reshape(np.append(x, input), (self.dpendulum.pendulum.nx+1,1))
+			xu = np.reshape(np.append(x, input), (self.dpendulum.pendulum.nx+1,config.actuator_dim))
 			# convert the input to a tensor
 			xu = self.NN.np2tf(xu)
 			# compute the Q_target value from the Q_target function
@@ -151,21 +152,20 @@ class DQN:
 		dim_u = config.actuator_dim
 		# extract the data from the mini batch
 		x_batch, u_batch, r_batch, x_batch_next = list(zip(*mini_batch))
-		# u_batch_next = np.empty(config.MINI_BATCH_SIZE)
 
-		x_batch = np.concatenate([x_batch],axis=1).T
-		x_batch = np.reshape(x_batch_next, (dim_x,np.size(mini_batch,0)))
+		x_batch = np.reshape(np.concatenate([x_batch],axis=1).T,(dim_x, np.size(mini_batch,0)))
+		x_batch_next = np.reshape(np.concatenate([x_batch_next],axis=1).T,(dim_x, np.size(mini_batch,0)))
 		u_batch = np.asarray(u_batch)
 		r_batch = np.asarray(r_batch)
 		# compute the max u' according to the Q_target function for each x' in the mini batch
 		u_batch_next = np.zeros((config.MINI_BATCH_SIZE, config.actuator_dim))
 		for i in range(config.MINI_BATCH_SIZE):
-			_,u_batch_next[i] = self.get_input_greedy_Q_target(x_batch_next[i])
+			_,u_batch_next[i] = self.get_input_greedy_Q_target(x_batch_next[:,i])
 		
 		# create the inputs for the Q function
-		xu = (np.append(x_batch, u_batch, axis=1)).T
+		xu = np.vstack([x_batch, u_batch])
 		# create the inputs for the Q_target function
-		xu_next = (np.append(x_batch_next, u_batch_next, axis=1)).T
+		xu_next = np.vstack([x_batch_next, u_batch_next.T])
 
 		# convert the inputs to tensors
 		xu = self.NN.np2tf(xu)
