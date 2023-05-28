@@ -15,6 +15,3 @@ DQN_Agent = DQN()
 
 # run the algorithm
 DQN_Agent.algorithm()
-
-
-
