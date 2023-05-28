@@ -10,7 +10,7 @@ from Classes.Dqn import DQN
 from Classes.Buffer import Buffer
 from Classes.Network import Network
 
-
+# create the DQN agent: it will contain the pendulum, the network and the buffer
 DQN_Agent = DQN()
 
 # run the algorithm

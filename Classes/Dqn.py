@@ -49,7 +49,7 @@ class DQN:
 				C += 1
 				# get the state of the pendulum
 				x = self.dpendulum.x
-				self.dpendulum.render()
+				# self.dpendulum.render()
         		# get the action according to the epsilon greedy policy
 				u_idx, u = self.get_input_greedy_Q(x)
 				# apply the action to the pendulum
@@ -72,6 +72,7 @@ class DQN:
 				reward += gamma*r
 				# update gamma
 				gamma *= config.DISCOUNT
+				print(j)
 
 			# compute the time for the episode
 			time_passed = round(time.time() - time_passed,3)
@@ -130,7 +131,6 @@ class DQN:
 			# compute the "continuous" input
 			input = self.dpendulum.d2cu(i)
 			# concatenate the state and the input
-			# xu = np.append(x, input)
 			xu = np.reshape(np.append(x, input), (self.dpendulum.pendulum.nx+1,config.actuator_dim))
 			# convert the input to a tensor
 			xu = self.NN.np2tf(xu)
@@ -151,26 +151,26 @@ class DQN:
 		dim_x = config.state_dim
 		dim_u = config.actuator_dim
 		# extract the data from the mini batch
-		x_batch, u_batch, r_batch, x_batch_next = list(zip(*mini_batch))
+		mini_batch = np.concatenate([mini_batch], axis=0)
+		x = mini_batch[:,0:dim_x]
+		u = mini_batch[:,dim_x:dim_x+dim_u]
+		r = mini_batch[:,dim_x+dim_u]
+		x_next = mini_batch[:,dim_x+dim_u+1:]
 
-		x_batch = np.reshape(np.concatenate([x_batch],axis=1).T,(dim_x, np.size(mini_batch,0)))
-		x_batch_next = np.reshape(np.concatenate([x_batch_next],axis=1).T,(dim_x, np.size(mini_batch,0)))
-		u_batch = np.asarray(u_batch)
-		r_batch = np.asarray(r_batch)
+		# xu is a matrix with. 3 (or 5) rows and MINI_BATCH_SIZE columns
+		xu = np.concatenate([x,u],axis=1).T
+  
 		# compute the max u' according to the Q_target function for each x' in the mini batch
-		u_batch_next = np.zeros((config.MINI_BATCH_SIZE, config.actuator_dim))
+		u_next = np.zeros((config.MINI_BATCH_SIZE, config.actuator_dim))
 		for i in range(config.MINI_BATCH_SIZE):
-			_,u_batch_next[i] = self.get_input_greedy_Q_target(x_batch_next[:,i])
+			_,u_next[i] = self.get_input_greedy_Q_target(x_next[i,:])
 		
-		# create the inputs for the Q function
-		xu = np.vstack([x_batch, u_batch])
-		# create the inputs for the Q_target function
-		xu_next = np.vstack([x_batch_next, u_batch_next.T])
-
+		xu_next = np.concatenate([x_next,u_next],axis=1).T
+  
 		# convert the inputs to tensors
 		xu = self.NN.np2tf(xu)
 		xu_next = self.NN.np2tf(xu_next)
 
-		# update the Q function
-		self.NN.update(xu, r_batch, xu_next)
+		# update the Q function using a set of experiences from the replay buffer
+		self.NN.update(xu, r, xu_next)
 		

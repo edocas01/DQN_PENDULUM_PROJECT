@@ -17,7 +17,10 @@ class Buffer:
   
   # insert a transition in the buffer
   def store_experience(self, x, u, r, x_next):
-    self.buffer.append((x, u, r, x_next))
+    experience = np.append(x,u)
+    experience = np.append(experience,r)
+    experience = np.append(experience,x_next)
+    self.buffer.append(experience)
     
   def sample_mini_batch(self):
     # sample a random mini batch of transitions
