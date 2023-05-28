@@ -186,12 +186,31 @@ class DQN:
         reward = 0.0
         gamma_i = 1
         for i in range(config.LENGTH_EPISODE):
-            u_idx, u = self.get_input_greedy_Q(x)
-            x, r = self.dpendulum.step([u_idx]) # it updates also x
+            # get the action according to the Q function 
+            # compute the best Q value according to the x and u given as input
+            u_index = 0 # initialize the best u as the first one
+            Q_value_max = 0 # initialize the best Q value as the first one
+            for i in range(config.dnu):
+                # compute the "continuous" input
+                input = self.dpendulum.d2cu(i)
+                # concatenate the state and the input: get_critic needs 3 (state and input) rows and 1 column
+                xu = np.reshape(np.append(x, input), (self.dpendulum.pendulum.nx+1,config.actuator_dim))
+                # convert the input to a tensor
+                xu = self.NN.np2tf(xu)
+                # compute the Q value from the Q_ function
+                Q_value = self.NN.Q(xu)
+                # convert the tensor to a numpy value 
+                Q_value = self.NN.tf2np(Q_value)
+                if Q_value > Q_value_max:
+                    Q_value_max = Q_value
+                    u_index = i
+                    
+            x, r = self.dpendulum.step([u_index]) # it updates also x
    
             reward += gamma_i*r
             gamma_i *= config.DISCOUNT
             self.dpendulum.render()
+            
         print("Real cost to go of state", x0[0], x0[1], ":", reward)
         print("Final state:", x[0], x[1])
         
