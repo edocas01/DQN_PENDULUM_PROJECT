@@ -29,8 +29,7 @@ class DQN:
         nep = 0
         # initialize the total reward history
         total_reward_history = []
-        # initialize gamma
-        gamma = 1.0
+        
         # initialize the total training time
         total_training_time = 0
         # run the algorithm
@@ -39,6 +38,8 @@ class DQN:
             reward = 0
             # increase nep
             nep += 1
+            # initialize gamma
+            gamma = 1.0
             # initialize the time for the episode
             time_passed = time.time()
    
@@ -57,7 +58,7 @@ class DQN:
                 x_next, r = self.dpendulum.step([u_idx]) # it updates also x
     
                 # store the transition in the buffer
-                self.buffer.store_experience(x, u, r, x_next)
+                self.buffer.store_experience(x, u_idx, r, x_next)
 
                 # sample from the batch if it is big enough
                 if len(self.buffer.buffer) > config.MIN_EXPERIENCE_BUFFER_SIZE:
@@ -73,13 +74,12 @@ class DQN:
                 reward += gamma*r
                 # update gamma
                 gamma *= config.DISCOUNT
-                print("time instant: ", j)
 
             # compute the time for the episode
             time_passed = round(time.time() - time_passed,3)
             # update the total training time
             total_training_time += time_passed
-
+            
             # print the results
             print("Episode: ", i, " Reward: {:.4g}".format(reward), " Time: ", time_passed, " Epsilon: {:.4g}".format(self.epsilon))
             
@@ -90,7 +90,9 @@ class DQN:
             self.epsilon = np.exp(-config.EXPL0RATION_DECREASING_DECAY*nep)
             self.epsilon = max(self.epsilon, config.EXPLORATION_MIN_PROB)
             
-            # self.evaluate_Q()
+            if i % 10 == 0:
+                print("Evaluate Q")
+                self.evaluate_Q()
             self.NN.Q.save_weights("MODELS/test.h5")
 
     
@@ -106,22 +108,26 @@ class DQN:
             u_index = 0 # initialize the best u as the first one
             Q_value_max = 0 # initialize the best Q value as the first one
             input_max = 0 # initialize the best input as the first one
-            for i in range(config.dnu):
-                # compute the "continuous" input
-                input = self.dpendulum.d2cu(i)
-                # concatenate the state and the input: get_critic needs 3 (state and input) rows and 1 column
-                xu = np.reshape(np.append(x, input), (self.dpendulum.pendulum.nx+1,config.actuator_dim))
-                # convert the input to a tensor
-                xu = self.NN.np2tf(xu)
-                # compute the Q value from the Q_ function
-                Q_value = self.NN.Q(xu)
-                # convert the tensor to a numpy value 
-                Q_value = self.NN.tf2np(Q_value)
-                if Q_value > Q_value_max:
-                    Q_value_max = Q_value
-                    u_index = i
-                    input_max = input
-     
+            # for i in range(config.dnu):
+            #     # compute the "continuous" input
+            #     input = self.dpendulum.d2cu(i)
+            #     # concatenate the state and the input: get_critic needs 3 (state and input) rows and 1 column
+            #     xu = np.reshape(np.append(x, input), (self.dpendulum.pendulum.nx+1,config.actuator_dim))
+            #     # convert the input to a tensor
+            #     xu = self.NN.np2tf(xu)
+            #     # compute the Q value from the Q_ function
+            #     Q_value = self.NN.Q(xu)
+            #     # convert the tensor to a numpy value 
+            #     Q_value = self.NN.tf2np(Q_value)
+            #     if Q_value > Q_value_max:
+            #         Q_value_max = Q_value
+            #         u_index = i
+            #         input_max = input
+            xu = np.reshape([np.append([x]*np.ones(self.dpendulum.dnu),np.arange(self.dpendulum.dnu))],(config.state_dim+1,self.dpendulum.dnu))
+            # xu = np.reshape([np.append([x]*np.ones(self.dpendulum.dnu),self.dpendulum.u_values)],(config.state_dim+1,self.dpendulum.dnu))
+            u_index = np.argmax(self.NN.Q(xu.T))
+            input_max = self.dpendulum.u_values[u_index]
+            
         return u_index, input_max
 
     # get greedy input for the Q_target function
@@ -131,22 +137,26 @@ class DQN:
         u_index = 0 # initialize the best u as the first one
         Q_target_value_max = 0 # initialize the best Q_target value as the first one
         input_max = 0 # initialize the best input as the first one
-        for i in range(config.dnu):
-            # compute the "continuous" input
-            input = self.dpendulum.d2cu(i)
-            # concatenate the state and the input
-            xu = np.reshape(np.append(x, input), (self.dpendulum.pendulum.nx+1,config.actuator_dim))
-            # convert the input to a tensor
-            xu = self.NN.np2tf(xu)
-            # compute the Q_target value from the Q_target function
-            Q_target_value = self.NN.Q_target(xu) 
-               # convert the tensor to a numpy value 
-            Q_target_value = self.NN.tf2np(Q_target_value)
+        # for i in range(config.dnu):
+        #     # compute the "continuous" input
+        #     input = self.dpendulum.d2cu(i)
+        #     # concatenate the state and the input
+        #     xu = np.reshape(np.append(x, input), (self.dpendulum.pendulum.nx+1,config.actuator_dim))
+        #     # convert the input to a tensor
+        #     xu = self.NN.np2tf(xu)
+        #     # compute the Q_target value from the Q_target function
+        #     Q_target_value = self.NN.Q_target(xu) 
+        #        # convert the tensor to a numpy value 
+        #     Q_target_value = self.NN.tf2np(Q_target_value)
 
-            if Q_target_value > Q_target_value_max:
-                Q_target_value_max = Q_target_value
-                u_index = i
-                input_max = input
+        #     if Q_target_value > Q_target_value_max:
+        #         Q_target_value_max = Q_target_value
+        #         u_index = i
+        #         input_max = input
+        x = np.reshape(x,(config.state_dim,1))
+        xu = np.reshape([np.append([x]*np.ones(self.dpendulum.dnu),np.arange(self.dpendulum.dnu))],(config.state_dim+1,self.dpendulum.dnu))
+        u_index = np.argmax(self.NN.Q_target(xu.T))
+        input_max = self.dpendulum.u_values[u_index]
      
         return u_index, input_max
 
@@ -167,7 +177,6 @@ class DQN:
         # compute the max u' according to the Q_target function for each x' in the mini batch
         u_next = np.zeros((config.MINI_BATCH_SIZE, config.actuator_dim))
         for i in range(config.MINI_BATCH_SIZE):
-            print("Evaluating the batch...")
             _,u_next[i] = self.get_input_greedy_Q_target(x_next[i,:])
         
         xu_next = np.concatenate([x_next,u_next],axis=1).T
@@ -175,7 +184,7 @@ class DQN:
         # convert the inputs to tensors
         xu = self.NN.np2tf(xu)
         xu_next = self.NN.np2tf(xu_next)
-
+        r = self.NN.np2tf(r)
         # update the Q function using a set of experiences from the replay buffer
         self.NN.update(xu, r, xu_next)
   
@@ -191,20 +200,22 @@ class DQN:
             # compute the best Q value according to the x and u given as input
             u_index = 0 # initialize the best u as the first one
             Q_value_max = 0 # initialize the best Q value as the first one
-            for i in range(config.dnu):
-                # compute the "continuous" input
-                input = self.dpendulum.d2cu(i)
-                # concatenate the state and the input: get_critic needs 3 (state and input) rows and 1 column
-                xu = np.reshape(np.append(x, input), (self.dpendulum.pendulum.nx+1,config.actuator_dim))
-                # convert the input to a tensor
-                xu = self.NN.np2tf(xu)
-                # compute the Q value from the Q_ function
-                Q_value = self.NN.Q(xu)
-                # convert the tensor to a numpy value 
-                Q_value = self.NN.tf2np(Q_value)
-                if Q_value > Q_value_max:
-                    Q_value_max = Q_value
-                    u_index = i
+            # for i in range(config.dnu):
+            #     # compute the "continuous" input
+            #     input = self.dpendulum.d2cu(i)
+            #     # concatenate the state and the input: get_critic needs 3 (state and input) rows and 1 column
+            #     xu = np.reshape(np.append(x, input), (self.dpendulum.pendulum.nx+1,config.actuator_dim))
+            #     # convert the input to a tensor
+            #     xu = self.NN.np2tf(xu)
+            #     # compute the Q value from the Q_ function
+            #     Q_value = self.NN.Q(xu)
+            #     # convert the tensor to a numpy value 
+            #     Q_value = self.NN.tf2np(Q_value)
+            #     if Q_value > Q_value_max:
+            #         Q_value_max = Q_value
+            #         u_index = i
+            xu = np.reshape([np.append([x]*np.ones(self.dpendulum.dnu),np.arange(self.dpendulum.dnu))],(config.state_dim+1,self.dpendulum.dnu))
+            u_index = np.argmax(self.NN.Q(xu.T))
                     
             x, r = self.dpendulum.step([u_index]) # it updates also x
    

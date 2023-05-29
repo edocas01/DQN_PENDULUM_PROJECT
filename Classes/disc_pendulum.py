@@ -21,6 +21,7 @@ class DPendulum:
         self.uMax = uMax     # Max torque (u in [-umax,umax])
         self.dt = dt         # time step
         self.DU = 2*uMax/dnu # discretization resolution for joint torque
+        self.u_values = self.define_u() # all possible values taken by the joint torque
 
     # Continuous to discrete joint torque (not really used, only in initialization for double pendulum)
     def c2du(self, u):
@@ -48,7 +49,12 @@ class DPendulum:
         self.pendulum.display(np.array([q,]))
         time.sleep(self.pendulum.DT)
 
-    
+    # define all possible values taken by the joint torque
+    def define_u(self):
+        u_values = np.zeros(self.dnu)
+        for i in range(self.dnu):
+            u_values[i] = self.d2cu(i)
+        return u_values
     # TO BE REDEFINED
     def plot_V_table(self, V, x):
         ''' Plot the given Value table V '''
