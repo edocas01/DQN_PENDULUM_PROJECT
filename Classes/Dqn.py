@@ -93,8 +93,10 @@ class DQN:
             if i % 10 == 0:
                 print("Evaluate Q")
                 self.evaluate_Q()
-            self.NN.Q.save_weights("MODELS/test_01.h5")
-
+            self.NN.Q.save_weights(config.save_path)
+        
+        # print the total training time
+        print("Total training time: ", total_training_time)
     
   # get greedy input for the Q function        
     def get_input_greedy_Q(self, x):

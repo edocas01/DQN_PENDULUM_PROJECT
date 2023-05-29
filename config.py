@@ -7,7 +7,7 @@ if TYPE_PENDULUM == 0:
     # Environment parameters
     
     nbJoint = 1 	# number of joints
-    dnu = 14 		# discretization of the torque
+    dnu = 35 		# discretization of the torque
     vMax = 5.0 		# max velocity
     uMax = 5.0 		# max torque
     state_dim = 2 	# state dimension
@@ -31,3 +31,4 @@ else:
 	nbJoint = 2 	# number of joints
 
 actuator_dim = 1 	# actuator dimension
+save_path = 'MODELS/test_03.h5' 	# path to save the network

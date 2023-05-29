@@ -21,5 +21,5 @@ if training == True:
     DQN_Agent.algorithm()
 else:
     # load the model
-    DQN_Agent.NN.Q.load_weights("MODELS/test.h5")
+    DQN_Agent.NN.Q.load_weights("MODELS/test_02.h5")
     DQN_Agent.evaluate_Q()
