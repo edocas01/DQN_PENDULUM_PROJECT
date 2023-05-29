@@ -13,9 +13,13 @@ from Classes.Network import Network
 # create the DQN agent: it will contain the pendulum, the network and the buffer
 DQN_Agent = DQN()
 
-# run the algorithm
-# DQN_Agent.algorithm()
+training = True
 
 
-DQN_Agent.NN.Q.load_weights("MODELS/test.h5")
-DQN_Agent.evaluate_Q()
+if training == True:
+    # run the algorithm
+    DQN_Agent.algorithm()
+else:
+    # load the model
+    DQN_Agent.NN.Q.load_weights("MODELS/test.h5")
+    DQN_Agent.evaluate_Q()
