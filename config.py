@@ -7,7 +7,7 @@ if TYPE_PENDULUM == 0:
     # Environment parameters
     
     nbJoint = 1 	# number of joints
-    dnu = 15 		# discretization of the torque
+    dnu = 13 		# discretization of the torque
     vMax = 2.0 		# max velocity
     uMax = 5.0 		# max torque
     state_dim = 2 	# state dimension
@@ -16,7 +16,7 @@ if TYPE_PENDULUM == 0:
     DISCOUNT = 0.99 			            # discount factor
     QVALUE_LEARNING_RATE = 0.001            # learning rate
     BUFFER_SIZE =   10000    		            # replay buffer size
-    MINI_BATCH_SIZE = 32		            # mini batch size
+    MINI_BATCH_SIZE = 20		            # mini batch size
     MIN_EXPERIENCE_BUFFER_SIZE = 100        # minimum experience buffer size
     
     NUM_EPISODE = 100			            # number of episodes

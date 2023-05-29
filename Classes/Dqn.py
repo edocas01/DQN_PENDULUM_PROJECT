@@ -50,7 +50,7 @@ class DQN:
                 C += 1
                 # get the state of the pendulum
                 x = self.dpendulum.x
-                # self.dpendulum.render()
+            
                 # get the action according to the epsilon greedy policy
                 u_idx, u = self.get_input_greedy_Q(x)
                 # apply the action to the pendulum
@@ -73,7 +73,7 @@ class DQN:
                 reward += gamma*r
                 # update gamma
                 gamma *= config.DISCOUNT
-
+                print("time instant: ", j)
 
             # compute the time for the episode
             time_passed = round(time.time() - time_passed,3)
@@ -90,7 +90,7 @@ class DQN:
             self.epsilon = np.exp(-config.EXPL0RATION_DECREASING_DECAY*nep)
             self.epsilon = max(self.epsilon, config.EXPLORATION_MIN_PROB)
             
-            self.evaluate_Q()
+            # self.evaluate_Q()
             self.NN.Q.save_weights("MODELS/test.h5")
 
     
@@ -167,6 +167,7 @@ class DQN:
         # compute the max u' according to the Q_target function for each x' in the mini batch
         u_next = np.zeros((config.MINI_BATCH_SIZE, config.actuator_dim))
         for i in range(config.MINI_BATCH_SIZE):
+            print("Evaluating the batch...")
             _,u_next[i] = self.get_input_greedy_Q_target(x_next[i,:])
         
         xu_next = np.concatenate([x_next,u_next],axis=1).T
