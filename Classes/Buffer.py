@@ -24,5 +24,5 @@ class Buffer:
     
   def sample_mini_batch(self):
     # sample a random mini batch of transitions
-    mini_batch = random.sample(self.buffer, self.mini_bach_size)
+    mini_batch = random.choices(self.buffer, k = self.mini_bach_size)
     return mini_batch

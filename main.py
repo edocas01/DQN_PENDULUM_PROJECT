@@ -14,8 +14,8 @@ from Classes.Network import Network
 DQN_Agent = DQN()
 
 # run the algorithm
-DQN_Agent.algorithm()
+# DQN_Agent.algorithm()
 
 
-# DQN_Agent.NN.Q.load_weights("MODELS/test.h5")
-# DQN_Agent.evaluate_Q()
+DQN_Agent.NN.Q.load_weights("MODELS/test.h5")
+DQN_Agent.evaluate_Q()

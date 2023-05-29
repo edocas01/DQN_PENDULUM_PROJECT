@@ -176,10 +176,11 @@ class DQN:
   
         # compute the max u' according to the Q_target function for each x' in the mini batch
         u_next = np.zeros((config.MINI_BATCH_SIZE, config.actuator_dim))
+        u_next_index = np.zeros((config.MINI_BATCH_SIZE, config.actuator_dim))
         for i in range(config.MINI_BATCH_SIZE):
-            _,u_next[i] = self.get_input_greedy_Q_target(x_next[i,:])
+            u_next_index[i], u_next[i] = self.get_input_greedy_Q_target(x_next[i,:])
         
-        xu_next = np.concatenate([x_next,u_next],axis=1).T
+        xu_next = np.concatenate([x_next,u_next_index],axis=1).T
   
         # convert the inputs to tensors
         xu = self.NN.np2tf(xu)
