@@ -82,7 +82,9 @@ class DQN:
             
             # print the results
             print("Episode: ", i, " Reward: {:.4g}".format(reward), " Time: ", time_passed, " Epsilon: {:.4g}".format(self.epsilon))
-            
+            with open(config.save_log, "a") as myfile:
+                print("Episode: ", i, " Reward: {:.4g}".format(reward), " Time: ", time_passed, " Epsilon: {:.4g}".format(self.epsilon), file=myfile)
+                
             # append the total reward to the history
             total_reward_history.append(reward)
             
@@ -93,11 +95,13 @@ class DQN:
             if i % 10 == 0:
                 print("Evaluate Q")
                 self.evaluate_Q()
-            self.NN.Q.save_weights(config.save_path)
+            self.NN.Q.save_weights(config.save_model)
         
         # print the total training time
         print("Total training time: ", total_training_time)
-    
+        with open(config.save_log, "a") as myfile:
+            print("Total training time: ", total_training_time, file=myfile)
+            
   # get greedy input for the Q function        
     def get_input_greedy_Q(self, x):
         # get the action according to the epsilon greedy policy
