@@ -92,7 +92,7 @@ class DQN:
             self.epsilon = np.exp(-config.EXPL0RATION_DECREASING_DECAY*nep)
             self.epsilon = max(self.epsilon, config.EXPLORATION_MIN_PROB)
             
-            if i % 10 == 0 & i > 0:
+            if i % 50 == 0:
                 print("Evaluate Q")
                 self.evaluate_Q()
             self.NN.Q.save_weights(config.save_model)
