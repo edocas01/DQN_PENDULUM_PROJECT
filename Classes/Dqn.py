@@ -92,7 +92,7 @@ class DQN:
             self.epsilon = np.exp(-config.EXPL0RATION_DECREASING_DECAY*nep)
             self.epsilon = max(self.epsilon, config.EXPLORATION_MIN_PROB)
             
-            if i % 50 == 0:
+            if i % 50 == 0 and i > 0:
                 print("Evaluate Q")
                 self.evaluate_Q()
             self.NN.Q.save_weights(config.save_model)
@@ -162,12 +162,19 @@ class DQN:
         self.NN.update(xu, r, xu_next)
   
   
-    def evaluate_Q(self):
+    def evaluate_Q(self, x = None):
         '''Roll-out from random state using greedy policy.'''
-        self.dpendulum.reset()
-        x = x0 = self.dpendulum.x
+        if x is None:
+            self.dpendulum.reset()
+            x = x0 = self.dpendulum.x
+        else:
+            x = x0 = np.array([[x[0]],[x[1]]])
+            self.dpendulum.reset(x)
         reward = 0.0
         gamma_i = 1
+        C_hist = []
+        X_hist = []
+        U_hist = []
         for i in range(config.LENGTH_EPISODE):
             # get the action according to the Q function 
             # xu = np.reshape([np.append([x]*np.ones(self.dpendulum.dnu),np.arange(self.dpendulum.dnu))],(config.state_dim+1,self.dpendulum.dnu))
@@ -175,11 +182,18 @@ class DQN:
             u_index = np.argmax(self.NN.Q(xu.T))
                     
             x, r = self.dpendulum.step([u_index]) # it updates also x
-   
+            
             reward += gamma_i*r
             gamma_i *= config.DISCOUNT
             self.dpendulum.render()
             
+            C_hist.append(r)
+            X_hist.append(x)
+            U_hist.append(self.dpendulum.u_values[u_index])
+            
+        X_hist = np.concatenate(X_hist,axis = 1)
         print("Real cost to go of state", x0[0], x0[1], ":", reward)
         print("Final state:", x[0], x[1])
+        
+        return C_hist, X_hist, U_hist
         

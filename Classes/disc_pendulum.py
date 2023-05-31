@@ -20,7 +20,7 @@ class DPendulum:
         self.dnu = dnu       # Number of discretization steps for joint torque
         self.uMax = uMax     # Max torque (u in [-umax,umax])
         self.dt = dt         # time step
-        self.DU = 2*uMax/dnu # discretization resolution for joint torque
+        self.DU = 2*uMax/dnu # discretization resolution for joint torque (for uniform discretization)
         self.u_values = self.define_u() # all possible values taken by the joint torque
 
     # Continuous to discrete joint torque (not really used, only in initialization for double pendulum)
@@ -31,7 +31,8 @@ class DPendulum:
     # Discrete to continuous joint torque
     def d2cu(self, iu):
         iu = np.clip(iu,0,self.dnu-1) - (self.dnu-1)/2
-        return iu*self.DU
+        DU_fine = self.DU*2*iu/self.dnu
+        return iu*DU_fine
 
     def reset(self,x=None):
         # reset using the reset of pendulum (since it is not discretized)
