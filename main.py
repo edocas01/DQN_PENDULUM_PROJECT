@@ -21,4 +21,3 @@ else:
     # load the model
     DQN_Agent.NN.Q.load_weights(config.save_model)
     DQN_Agent.evaluate_Q()
-

@@ -72,5 +72,6 @@ class Network:
     Q_grad = tape.gradient(Q_loss, self.Q.trainable_variables)          
     # Update the critic backpropagating the gradients
     self.critic_optimizer.apply_gradients(zip(Q_grad, self.Q.trainable_variables))   
+
     
   

@@ -21,7 +21,7 @@ if TYPE_PENDULUM == 0:
     MINI_BATCH_SIZE = 128		            # mini batch size
     MIN_EXPERIENCE_BUFFER_SIZE = 200        # minimum experience buffer size
     
-    NUM_EPISODE = 200			            # number of episodes
+    NUM_EPISODE = 2			            # number of episodes
     LENGTH_EPISODE = 100 		            # length of episode
     C_UPDATE = 250							# number of steps before updating the target network
     
@@ -50,9 +50,9 @@ string += "TEST_02"
 if not os.path.exists(string):
     # If it doesn't exist, create it
     os.makedirs(string)
-string += "/test"
-save_model = string + '.h5' 	# path to save the network
-save_log = string + '.txt' 		# path to save the log
+save_model = string + '/model.h5' 	# path to save the network
+save_log = string + '/log.txt' 		# path to save the log
+save_reward = string + '/reward.dat' # path to save the reward
 
 if training == True:
     # save the main parameters to the log

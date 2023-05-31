@@ -101,7 +101,11 @@ class DQN:
         print("Total training time: ", total_training_time)
         with open(config.save_log, "a") as myfile:
             print("Total training time: ", total_training_time, file=myfile)
-            
+          
+        # save the total reward history
+        reward_history_array = np.asarray(total_reward_history)
+        reward_history_array.tofile(config.save_reward)  
+          
   # get greedy input for the Q function        
     def get_input_greedy_Q(self, x):
         # get the action according to the epsilon greedy policy
