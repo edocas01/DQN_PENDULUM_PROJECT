@@ -22,7 +22,7 @@ if TYPE_PENDULUM == 0:
     MIN_EXPERIENCE_BUFFER_SIZE = 200        # minimum experience buffer size
     
     NUM_EPISODE = 100			            # number of episodes
-    LENGTH_EPISODE = 100 		            # length of episode
+    LENGTH_EPISODE = 30 		            # length of episode
     C_UPDATE = 250							# number of steps before updating the target network
     
     EXPLORATION_MIN_PROB = 0.001            # minimum exploration probability
@@ -43,10 +43,10 @@ else:
 actuator_dim = 1 	# actuator dimension
 
 # FLag to train the network or to evaluate it
-training = False
+training = True
 
 # path to save the network and the log
-string += "TEST_01"
+string += "TEST_02"
 if not os.path.exists(string):
     # If it doesn't exist, create it
     os.makedirs(string)

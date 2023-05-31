@@ -58,6 +58,7 @@ class DQN:
                 x_next, r = self.dpendulum.step([u_idx]) # it updates also x
     
                 # store the transition in the buffer
+                # self.buffer.store_experience(x, u_idx, r, x_next)
                 self.buffer.store_experience(x, u, r, x_next)
 
                 # sample from the batch if it is big enough

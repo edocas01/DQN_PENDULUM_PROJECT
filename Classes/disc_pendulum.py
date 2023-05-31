@@ -31,7 +31,7 @@ class DPendulum:
     # Discrete to continuous joint torque
     def d2cu(self, iu):
         iu = np.clip(iu,0,self.dnu-1) - (self.dnu-1)/2
-        DU_fine = self.DU*2*iu/self.dnu
+        DU_fine = self.DU*2*np.abs(iu)/self.dnu
         return iu*DU_fine
 
     def reset(self,x=None):
@@ -56,6 +56,7 @@ class DPendulum:
         for i in range(self.dnu):
             u_values[i] = self.d2cu(i)
         return u_values
+    
     # TO BE REDEFINED
     def plot_V_table(self, V, x):
         ''' Plot the given Value table V '''
