@@ -48,5 +48,12 @@ else:
     plt.gca().set_xlabel('Time [s]')
     plt.gca().set_ylabel('joint torque [Nm]')
     plt.title("Joint torque over an episode")
+    
+    R = np.fromfile(config.save_reward, dtype=float)
+    time = np.arange(0,config.NUM_EPISODE)
+    plt.figure()
+    plt.plot(time, R[:], "b")
+    plt.gca().set_xlabel('Episodes')
+    plt.gca().set_ylabel('Reward')
+    plt.title("Reward over the episodes")
     plt.show()
-
