@@ -99,9 +99,9 @@ class DQN:
             self.NN.Q.save_weights(config.save_model)
         
         # print the total training time
-        print("Total training time: ", total_training_time)
+        print("Total training time: ", total_training_time, " seconds (", total_training_time/60, " minutes)")
         with open(config.save_log, "a") as myfile:
-            print("Total training time: ", total_training_time, file=myfile)
+            print("\nTotal training time: ", total_training_time, " seconds (", total_training_time/60, " minutes)", file=myfile)
           
         # save the total reward history
         reward_history_array = np.asarray(total_reward_history)
