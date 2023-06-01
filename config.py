@@ -9,24 +9,24 @@ if TYPE_PENDULUM == 0:
     # Environment parameters
     
     nbJoint = 1 	# number of joints
-    dnu = 21 		# discretization of the torque
+    dnu = 35 		# discretization of the torque
     vMax = 5.0 		# max velocity
-    uMax = 8.0 		# max torque
+    uMax = 5 		# max torque
     state_dim = 2 	# state dimension
 
     # DQN parameters
     DISCOUNT = 0.99 			            # discount factor
     QVALUE_LEARNING_RATE = 0.001            # learning rate
-    BUFFER_SIZE =   2000    		            # replay buffer size
-    MINI_BATCH_SIZE = 32		            # mini batch size
+    BUFFER_SIZE =   20000    		            # replay buffer size
+    MINI_BATCH_SIZE = 64		            # mini batch size
     MIN_EXPERIENCE_BUFFER_SIZE = 200        # minimum experience buffer size
     
-    NUM_EPISODE = 100			            # number of episodes
-    LENGTH_EPISODE = 60 		            # length of episode
-    C_UPDATE = 250							# number of steps before updating the target network
+    NUM_EPISODE = 120			            # number of episodes
+    LENGTH_EPISODE = 100 		            # length of episode
+    C_UPDATE = 200							# number of steps before updating the target network
     
     EXPLORATION_MIN_PROB = 0.001            # minimum exploration probability
-    EXPL0RATION_DECREASING_DECAY = 0.03    # exploration decreasing decay
+    EXPL0RATION_DECREASING_DECAY = 0.02    # exploration decreasing decay
     
     # string to save files
     string = "MODELS/SPENDULUM/"
@@ -46,7 +46,7 @@ actuator_dim = 1 	# actuator dimension
 training = True
 
 # path to save the network and the log
-string += "TEST_02"
+string += "TEST_03_cost"
 if not os.path.exists(string):
     # If it doesn't exist, create it
     os.makedirs(string)
