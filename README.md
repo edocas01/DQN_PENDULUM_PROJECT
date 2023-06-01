@@ -1,6 +1,6 @@
 # DQN_PENDULUM_PROJECT
 This repository contains the code developed by Edoardo Castioni and Simone Manfredi for the project of the course "Advanced optimization-based robot control" of professor Del Prete. The project consist in the implementation of the DQN algorithm in order to stabilize the inverse pendulum. The whole environment is written in pyhton
-[Screencast from 01-06-2023 09:29:10.webm](https://github.com/edocas01/DQN_PENDULUM_PROJECT/assets/102302586/1bdc0284-29ec-45b2-945b-66c29022486b)
+
 
 ## Papers and related works
 - [_Implementing the Deep Q-Network_](https://arxiv.org/abs/1711.07478)
