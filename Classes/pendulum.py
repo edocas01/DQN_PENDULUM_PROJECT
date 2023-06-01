@@ -152,7 +152,7 @@ class Pendulum:
         Also compute the cost of taking this step.
         Return x for convenience along with the cost.
         '''
-
+        
         modulePi = lambda th: (th+np.pi)%(2*np.pi)-np.pi
         sumsq    = lambda x : np.sum(np.square(x))
 

@@ -223,7 +223,5 @@ class DQN:
                 PI[i,j] = input_max
                 # PI[i,j] = u_index
                 
-                
-
         return V, PI, q, dq
         

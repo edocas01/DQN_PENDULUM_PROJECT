@@ -1,6 +1,6 @@
+.asv
 .vscode
 *.DS_Store
-RESULTS/
 MODELS/
 ESEMPI/
 __pycache__/
