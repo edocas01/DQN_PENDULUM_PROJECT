@@ -9,19 +9,19 @@ if TYPE_PENDULUM == 0:
     # Environment parameters
     
     nbJoint = 1 	# number of joints
-    dnu = 35 		# discretization of the torque
+    dnu = 21 		# discretization of the torque
     vMax = 5.0 		# max velocity
-    uMax = 8 		# max torque
+    uMax = 5 		# max torque
     state_dim = 2 	# state dimension
 
     # DQN parameters
     DISCOUNT = 0.99 			            # discount factor
     QVALUE_LEARNING_RATE = 0.001            # learning rate
-    BUFFER_SIZE =   2000    		            # replay buffer size
-    MINI_BATCH_SIZE = 64		            # mini batch size
+    BUFFER_SIZE =   20000    		            # replay buffer size
+    MINI_BATCH_SIZE = 32		            # mini batch size
     MIN_EXPERIENCE_BUFFER_SIZE = 200        # minimum experience buffer size
     
-    NUM_EPISODE = 200			            # number of episodes
+    NUM_EPISODE = 80			            # number of episodes
     LENGTH_EPISODE = 100 		            # length of episode
     C_UPDATE = 300							# number of steps before updating the target network
     
@@ -43,10 +43,10 @@ else:
 actuator_dim = 1 	# actuator dimension
 
 # FLag to train the network or to evaluate it
-training = True
+training = False
 
 # path to save the network and the log
-string += "TEST_cost"
+string += "TEST_03_index"
 save_model = string + '/model.h5' 	# path to save the network
 save_log = string + '/log.txt' 		# path to save the log
 save_reward = string + '/reward.dat' # path to save the reward

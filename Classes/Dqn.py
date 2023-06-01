@@ -6,6 +6,7 @@ from numpy.random import randint
 import config
 import time
 import matplotlib.pyplot as plt
+import math
 class DQN:
     '''
     This class implements the DQN algorithm, which is used to train the Q function.
@@ -163,7 +164,7 @@ class DQN:
         # update the Q function using a set of experiences from the replay buffer
         self.NN.update(xu, r, xu_next)
   
-  
+    # run a simulation using trained Q function
     def evaluate_Q(self, x = None):
         '''Roll-out from random state using greedy policy.'''
         if x is None:
@@ -192,10 +193,37 @@ class DQN:
             C_hist.append(r)
             X_hist.append(x)
             U_hist.append(self.dpendulum.u_values[u_index])
+            # U_hist.append(u_index)
             
         X_hist = np.concatenate(X_hist,axis = 1)
         print("Real cost to go of state", x0[0], x0[1], ":", reward)
         print("Final state:", x[0], x[1])
         
         return C_hist, X_hist, U_hist
+        
+    # Compute the value function V and policy pi    
+    def compute_V_pi(self):
+        definition = 100
+        q = np.linspace(-math.pi, math.pi, num=definition)
+        dq = np.linspace(-config.vMax, config.vMax, num=definition)
+        
+        PI = np.zeros(shape=(definition, definition))
+        V = np.zeros(shape=(definition, definition))
+        
+        for i in range(definition):
+            for j in range(definition):
+                
+                x = np.array([[q[i]],[dq[j]]])
+                # xu = np.reshape([np.append([x]*np.ones(self.dpendulum.dnu),np.arange(self.dpendulum.dnu))],(config.state_dim+1,self.dpendulum.dnu))
+                xu = np.reshape([np.append([x]*np.ones(self.dpendulum.dnu),self.dpendulum.u_values)],(config.state_dim+1,self.dpendulum.dnu))
+                u_index = np.argmax(self.NN.Q(xu.T))
+                input_max = self.dpendulum.u_values[u_index]
+            
+                V[i,j] = np.max(self.NN.Q(xu.T))
+                PI[i,j] = input_max
+                # PI[i,j] = u_index
+                
+                
+
+        return V, PI, q, dq
         

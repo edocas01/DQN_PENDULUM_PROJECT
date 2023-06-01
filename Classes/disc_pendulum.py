@@ -58,40 +58,31 @@ class DPendulum:
         return u_values
     
     # TO BE REDEFINED
-    def plot_V_table(self, V, x):
+    def plot_V_table(self, V, q, dq, string):
         ''' Plot the given Value table V '''
         import matplotlib.pyplot as plt
-        Q = x[0]
-        DQ = x[1]
+
         plt.figure()
-        plt.pcolormesh(Q, DQ, V, cmap=plt.cm.get_cmap('Blues'))
+        plt.pcolormesh(q, dq, V, cmap=plt.cm.get_cmap('Blues'))
         plt.colorbar()
-        plt.title('V table')
+        title = 'V table'
+        plt.title(title)
         plt.xlabel("Joint angle [rad]")
         plt.ylabel("Joint velocity [rad/s]")
-        plt.show()
+        plt.savefig(string + title + '.png')
         
-    def plot_policy(self, pi, x):
+    def plot_policy(self, pi, q, dq, string):
         ''' Plot the given policy table pi '''
         import matplotlib.pyplot as plt
-        Q = x[0]
-        DQ = x[1]
+
         plt.figure()
-        plt.pcolormesh(Q, DQ, pi, cmap=plt.cm.get_cmap('RdBu'))
+        plt.pcolormesh(q, dq, pi, cmap=plt.cm.get_cmap('RdBu'))
         plt.colorbar()
-        plt.title('Policy')
+        title = 'Policy'
+        plt.title(title)
         plt.xlabel("Joint angle [rad]")
         plt.ylabel("Joint velocity [rad/s]")
-        plt.show()
+        plt.savefig(string + title + '.png')
         
-    def plot_Q_table(self, Q):
-        ''' Plot the given Q table '''
-        import matplotlib.pyplot as plt
-        X,U = np.meshgrid(range(Q.shape[0]),range(Q.shape[1]))
-        plt.pcolormesh(X, U, Q.T, cmap=plt.cm.get_cmap('Blues'))
-        plt.colorbar()
-        plt.title('Q table')
-        plt.xlabel("x")
-        plt.ylabel("Joint torque [Nm]")
-        plt.show()
+
     
