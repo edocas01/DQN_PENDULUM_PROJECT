@@ -43,22 +43,44 @@ else:
     plt.savefig(save_figures + string + '.png')
     
     plt.figure()
-    plt.plot(time, X[0,:], "k")
-    plt.gca().set_xlabel('Iteration')
-    plt.gca().set_ylabel('Joint angle [rad]')
-    string = "Joint poistion over an episode"
-    plt.title(string)
-    plt.plot(time, np.zeros(config.LENGTH_EPISODE), "r--",linewidth=1.0)
-    plt.savefig(save_figures + string + '.png')
-    
-    plt.figure()
-    plt.plot(time, X[1,:], "k")
-    plt.gca().set_xlabel('Iteration')
-    plt.gca().set_ylabel('Joint velocity [rad/s]')
-    string = "Joint velocity over an episode"
-    plt.title(string)
-    plt.plot(time, np.zeros(config.LENGTH_EPISODE), "r--",linewidth=1.0)
-    plt.savefig(save_figures + string + '.png')
+    if config.TYPE_PENDULUM == 0:
+        plt.plot(time, X[0,:], "k")
+        plt.gca().set_xlabel('Iteration')
+        plt.gca().set_ylabel('Joint angle [rad]')
+        string = "Joint poistion over an episode"
+        plt.title(string)
+        plt.plot(time, np.zeros(config.LENGTH_EPISODE), "r--",linewidth=1.0)
+        plt.savefig(save_figures + string + '.png')
+        
+        plt.figure()
+        plt.plot(time, X[1,:], "k")
+        plt.gca().set_xlabel('Iteration')
+        plt.gca().set_ylabel('Joint velocity [rad/s]')
+        string = "Joint velocity over an episode"
+        plt.title(string)
+        plt.plot(time, np.zeros(config.LENGTH_EPISODE), "r--",linewidth=1.0)
+        plt.savefig(save_figures + string + '.png')
+    else:
+        plt.plot(time, X[0,:], "k")
+        plt.plot(time, X[1,:], "b")
+        plt.gca().set_xlabel('Iteration')
+        plt.gca().set_ylabel('Joint angle [rad]')
+        plt.legend(['q1','q2'])
+        string = "Joint poistions over an episode"
+        plt.title(string)
+        plt.plot(time, np.zeros(config.LENGTH_EPISODE), "r--",linewidth=1.0)
+        plt.savefig(save_figures + string + '.png')
+        
+        plt.figure()
+        plt.plot(time, X[1,:], "k")
+        plt.plot(time, X[3,:], "b")
+        plt.gca().set_xlabel('Iteration')
+        plt.gca().set_ylabel('Joint velocities [rad/s]')
+        plt.legend(['dq1','dq2'])
+        string = "Joint velocities over an episode"
+        plt.title(string)
+        plt.plot(time, np.zeros(config.LENGTH_EPISODE), "r--",linewidth=1.0)
+        plt.savefig(save_figures + string + '.png')
     
     plt.figure()
     plt.plot(time, U[:], "k")
@@ -89,9 +111,10 @@ else:
     plt.plot(time, np.zeros(config.NUM_EPISODE), "r--",linewidth=1.0)
     plt.savefig(save_figures + string + '.png')
     
-    V, P, q, dq = DQN_Agent.compute_V_pi()
-    DQN_Agent.dpendulum.plot_V_table(V, q, dq, save_figures)
-    DQN_Agent.dpendulum.plot_policy(P, q, dq, save_figures)
+    if config.TYPE_PENDULUM == 0:
+        V, P, q, dq = DQN_Agent.compute_V_pi()
+        DQN_Agent.dpendulum.plot_V_table(V, q, dq, save_figures)
+        DQN_Agent.dpendulum.plot_policy(P, q, dq, save_figures)
         
     plt.show()
 

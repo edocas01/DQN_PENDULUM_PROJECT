@@ -46,8 +46,7 @@ class DPendulum:
         return self.x, cost
 
     def render(self):
-        q = self.x[0]
-        self.pendulum.display(np.array([q,]))
+        self.pendulum.render()
         time.sleep(self.pendulum.DT)
 
     # define all possible values taken by the joint torque
@@ -56,8 +55,7 @@ class DPendulum:
         for i in range(self.dnu):
             u_values[i] = self.d2cu(i)
         return u_values
-    
-    # TO BE REDEFINED
+
     def plot_V_table(self, V, q, dq, string):
         ''' Plot the given Value table V '''
         import matplotlib.pyplot as plt
@@ -85,4 +83,10 @@ class DPendulum:
         plt.savefig(string + title + '.png')
         
 
-    
+# if __name__ == '__main__':
+#     test = DPendulum(2, 11, 5, 5, 0.2, 1, 0)
+#     test.reset(x= np.array([np.pi,0.,0.,0.]))
+#     for i in np.arange(200):
+#         test.render()
+#         time.sleep(0.05)
+#         test.step(np.array([0, (test.dnu-1)/2]))

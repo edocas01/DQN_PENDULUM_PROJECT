@@ -56,8 +56,10 @@ class DQN:
                 # get the action according to the epsilon greedy policy
                 u_idx, u = self.get_input_greedy_Q(x)
                 # apply the action to the pendulum
-                x_next, r = self.dpendulum.step([u_idx]) # it updates also x
-    
+                if config.TYPE_PENDULUM == 0:
+                    x_next, r = self.dpendulum.step([u_idx]) # it updates also x
+                else:
+                    x_next, r = self.dpendulum.step([u_idx, (self.dpendulum.dnu-1)/2])
                 # store the transition in the buffer
                 # self.buffer.store_experience(x, u_idx, r, x_next)
                 self.buffer.store_experience(x, u, r, x_next)
@@ -93,7 +95,7 @@ class DQN:
             # decrease the exploration probability
             self.epsilon = np.exp(-config.EXPL0RATION_DECREASING_DECAY*nep)
             self.epsilon = max(self.epsilon, config.EXPLORATION_MIN_PROB)
-            
+
             if i % 50 == 0 and i > 0:
                 print("Evaluate Q")
                 self.evaluate_Q()
@@ -115,9 +117,12 @@ class DQN:
             u_index = np.random.randint(0, config.dnu)
             input_max = self.dpendulum.d2cu(u_index)
         else:
+            if config.TYPE_PENDULUM == 1:
+                x = np.reshape(x,(config.state_dim,1))
             # get the action according to the Q function 
             # xu = np.reshape([np.append([x]*np.ones(self.dpendulum.dnu),np.arange(self.dpendulum.dnu))],(config.state_dim+1,self.dpendulum.dnu))
             xu = np.reshape([np.append([x]*np.ones(self.dpendulum.dnu),self.dpendulum.u_values)],(config.state_dim+1,self.dpendulum.dnu))
+
             u_index = np.argmax(self.NN.Q(xu.T))
             input_max = self.dpendulum.u_values[u_index]
             
@@ -179,13 +184,17 @@ class DQN:
         X_hist = []
         U_hist = []
         for i in range(config.LENGTH_EPISODE):
+            if config.TYPE_PENDULUM == 1:
+                x = np.reshape(x,(config.state_dim,1))
             # get the action according to the Q function 
             # xu = np.reshape([np.append([x]*np.ones(self.dpendulum.dnu),np.arange(self.dpendulum.dnu))],(config.state_dim+1,self.dpendulum.dnu))
             xu = np.reshape([np.append([x]*np.ones(self.dpendulum.dnu),self.dpendulum.u_values)],(config.state_dim+1,self.dpendulum.dnu))
             u_index = np.argmax(self.NN.Q(xu.T))
-                    
-            x, r = self.dpendulum.step([u_index]) # it updates also x
             
+            if config.TYPE_PENDULUM == 0:       
+                x, r = self.dpendulum.step([u_index]) # it updates also x
+            else:
+                x, r = self.dpendulum.step([u_index, (self.dpendulum.dnu-1)/2])
             reward += gamma_i*r
             gamma_i *= config.DISCOUNT
             self.dpendulum.render()
@@ -194,10 +203,17 @@ class DQN:
             X_hist.append(x)
             U_hist.append(self.dpendulum.u_values[u_index])
             # U_hist.append(u_index)
+        
+        if config.TYPE_PENDULUM == 0:
+            X_hist = np.concatenate(X_hist, axis = 1)
+            print("Real cost to go of state", x0[0], x0[1], ":", reward)
+            print("Final state:", x[0], x[1])
+        else:
+            X_hist = np.reshape(X_hist,(config.LENGTH_EPISODE,config.state_dim))
+            X_hist = X_hist.T   
+            print("Real cost to go of state", x0[0], x0[1], x0[2], x0[3],":", reward)
+            print("Final state:", x[0], x[1], x0[2], x0[3])
             
-        X_hist = np.concatenate(X_hist,axis = 1)
-        print("Real cost to go of state", x0[0], x0[1], ":", reward)
-        print("Final state:", x[0], x[1])
         
         return C_hist, X_hist, U_hist
         
