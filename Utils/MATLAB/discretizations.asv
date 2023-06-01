@@ -1,0 +1,27 @@
+maxvalue = 10;
+dnu = 21;
+DU = 2*maxvalue/dnu;
+
+iu = (0:1:dnu);
+u = [];
+for i = 1:dnu
+    u(i) = generate_u(iu(i),dnu, DU);
+end
+
+plot(u, ones(dnu), '.r','LineWidth',1.1,'MarkerSize',13)
+hgold 
+plot([-10,10],[1,1],'-k','LineWidth',0.08)
+
+
+
+function u = generate_u(iu, dnu, DU)
+    if iu > dnu
+        iu = dnu;
+    elseif iu < 0
+        iu = 0;
+    end
+    iu = iu - (dnu-1)/2;
+    DUnew = 2*DU*abs(iu)/dnu;
+    
+    u = DUnew*iu;
+end
