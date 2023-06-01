@@ -11,19 +11,19 @@ if TYPE_PENDULUM == 0:
     nbJoint = 1 	# number of joints
     dnu = 35 		# discretization of the torque
     vMax = 5.0 		# max velocity
-    uMax = 5 		# max torque
+    uMax = 8 		# max torque
     state_dim = 2 	# state dimension
 
     # DQN parameters
     DISCOUNT = 0.99 			            # discount factor
     QVALUE_LEARNING_RATE = 0.001            # learning rate
-    BUFFER_SIZE =   20000    		            # replay buffer size
+    BUFFER_SIZE =   2000    		            # replay buffer size
     MINI_BATCH_SIZE = 64		            # mini batch size
     MIN_EXPERIENCE_BUFFER_SIZE = 200        # minimum experience buffer size
     
-    NUM_EPISODE = 120			            # number of episodes
+    NUM_EPISODE = 200			            # number of episodes
     LENGTH_EPISODE = 100 		            # length of episode
-    C_UPDATE = 200							# number of steps before updating the target network
+    C_UPDATE = 300							# number of steps before updating the target network
     
     EXPLORATION_MIN_PROB = 0.001            # minimum exploration probability
     EXPL0RATION_DECREASING_DECAY = 0.02    # exploration decreasing decay
@@ -46,15 +46,15 @@ actuator_dim = 1 	# actuator dimension
 training = True
 
 # path to save the network and the log
-string += "TEST_03_cost"
-if not os.path.exists(string):
-    # If it doesn't exist, create it
-    os.makedirs(string)
+string += "TEST_cost"
 save_model = string + '/model.h5' 	# path to save the network
 save_log = string + '/log.txt' 		# path to save the log
 save_reward = string + '/reward.dat' # path to save the reward
 
 if training == True:
+    if not os.path.exists(string):
+        # If it doesn't exist, create it
+        os.makedirs(string)
     # save the main parameters to the log
     with open(save_log,"w") as file:
         file.write("--> PENDULUM PARAMETERS <--\n")
