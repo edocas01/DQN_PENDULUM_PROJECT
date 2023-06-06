@@ -21,7 +21,7 @@ class DQN:
     
         # parameters for the algorithm
         self.epsilon = 1.0
-
+        
 
     def algorithm(self):
         # initialize C
@@ -96,7 +96,7 @@ class DQN:
             self.epsilon = np.exp(-config.EXPL0RATION_DECREASING_DECAY*nep)
             self.epsilon = max(self.epsilon, config.EXPLORATION_MIN_PROB)
 
-            if i % 50 == 0 and i > 0:
+            if i % 30 == 0 and i > 0:
                 print("Evaluate Q")
                 self.evaluate_Q()
             self.NN.Q.save_weights(config.save_model)
@@ -117,8 +117,8 @@ class DQN:
             u_index = np.random.randint(0, config.dnu)
             input_max = self.dpendulum.d2cu(u_index)
         else:
-            if config.TYPE_PENDULUM == 1:
-                x = np.reshape(x,(config.state_dim,1))
+            
+            x = np.reshape(x,(config.state_dim,1))
             # get the action according to the Q function 
             # xu = np.reshape([np.append([x]*np.ones(self.dpendulum.dnu),np.arange(self.dpendulum.dnu))],(config.state_dim+1,self.dpendulum.dnu))
             xu = np.reshape([np.append([x]*np.ones(self.dpendulum.dnu),self.dpendulum.u_values)],(config.state_dim+1,self.dpendulum.dnu))
@@ -176,7 +176,10 @@ class DQN:
             self.dpendulum.reset()
             x = x0 = self.dpendulum.x
         else:
-            x = x0 = np.array([[x[0]],[x[1]]])
+            if config.TYPE_PENDULUM == 0:
+                x = x0 = np.array([[x[0]],[x[1]]])
+            else:
+                x0 = x = np.asarray(x)
             self.dpendulum.reset(x)
         reward = 0.0
         gamma_i = 1
@@ -184,8 +187,8 @@ class DQN:
         X_hist = []
         U_hist = []
         for i in range(config.LENGTH_EPISODE):
-            if config.TYPE_PENDULUM == 1:
-                x = np.reshape(x,(config.state_dim,1))
+            
+            x = np.reshape(x,(config.state_dim,1))
             # get the action according to the Q function 
             # xu = np.reshape([np.append([x]*np.ones(self.dpendulum.dnu),np.arange(self.dpendulum.dnu))],(config.state_dim+1,self.dpendulum.dnu))
             xu = np.reshape([np.append([x]*np.ones(self.dpendulum.dnu),self.dpendulum.u_values)],(config.state_dim+1,self.dpendulum.dnu))
@@ -240,4 +243,3 @@ class DQN:
                 # PI[i,j] = u_index
                 
         return V, PI, q, dq
-        

@@ -28,8 +28,11 @@ else:
         
     # load the model
     DQN_Agent.NN.Q.load_weights(config.save_model)
-    C,X,U = DQN_Agent.evaluate_Q([math.pi,0])
-    # C,X,U = DQN_Agent.evaluate_Q()
+    if config.TYPE_PENDULUM == 0:
+        C,X,U = DQN_Agent.evaluate_Q([math.pi,0])
+    else:
+        # C,X,U = DQN_Agent.evaluate_Q([math.pi,0,0,0])
+        C,X,U = DQN_Agent.evaluate_Q()
     
     # plot the results
     time = np.arange(0,config.LENGTH_EPISODE)   

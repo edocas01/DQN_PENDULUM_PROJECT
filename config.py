@@ -1,7 +1,7 @@
 import os
 
 # Configuration file for the DQN algorithm
-TYPE_PENDULUM = 1 # 0: simple pendulum, 1: double pendulum
+TYPE_PENDULUM = 0 # 0: simple pendulum, 1: double pendulum
 
 
 # Single pendulum parameters
@@ -11,22 +11,22 @@ if TYPE_PENDULUM == 0:
     nbJoint = 1 	# number of joints
     dnu = 21 		# discretization of the torque
     vMax = 5.0 		# max velocity
-    uMax = 1.5 		# max torque
+    uMax = 8 		# max torque
     state_dim = 2 	# state dimension
 
     # DQN parameters
     DISCOUNT = 0.99 			            # discount factor
     QVALUE_LEARNING_RATE = 0.001            # learning rate
     BUFFER_SIZE =   20000    		            # replay buffer size
-    MINI_BATCH_SIZE = 128		            # mini batch size
+    MINI_BATCH_SIZE = 64		            # mini batch size
     MIN_EXPERIENCE_BUFFER_SIZE = 200        # minimum experience buffer size
     
-    NUM_EPISODE = 200			            # number of episodes
+    NUM_EPISODE = 100			            # number of episodes
     LENGTH_EPISODE = 100 		            # length of episode
     C_UPDATE = 300							# number of steps before updating the target network
     
     EXPLORATION_MIN_PROB = 0.001            # minimum exploration probability
-    EXPL0RATION_DECREASING_DECAY = 0.02    # exploration decreasing decay
+    EXPL0RATION_DECREASING_DECAY = 0.03    # exploration decreasing decay
     
     # string to save files
     string = "MODELS/SPENDULUM/"
@@ -35,24 +35,24 @@ else:
     # Environment parameters
     
     nbJoint = 2 	# number of joints
-    dnu = 33 		# discretization of the torque
-    vMax = 8.0 		# max velocity
+    dnu = 27 		# discretization of the torque
+    vMax = 6.0 		# max velocity
     uMax = 8.0 		# max torque
     state_dim = 4 	# state dimension
 
     # DQN parameters
     DISCOUNT = 0.99 			            # discount factor
     QVALUE_LEARNING_RATE = 0.001            # learning rate
-    BUFFER_SIZE =   50000    		            # replay buffer size
-    MINI_BATCH_SIZE = 128		            # mini batch size
-    MIN_EXPERIENCE_BUFFER_SIZE = 200        # minimum experience buffer size
+    BUFFER_SIZE =   2000    		            # replay buffer size
+    MINI_BATCH_SIZE = 64		            # mini batch size
+    MIN_EXPERIENCE_BUFFER_SIZE = 300        # minimum experience buffer size
     
-    NUM_EPISODE = 200			            # number of episodes
-    LENGTH_EPISODE = 100 		            # length of episode
-    C_UPDATE = 300							# number of steps before updating the target network
+    NUM_EPISODE = 800			            # number of episodes
+    LENGTH_EPISODE = 120	                # length of episode
+    C_UPDATE = 150							# number of steps before updating the target network
     
     EXPLORATION_MIN_PROB = 0.001            # minimum exploration probability
-    EXPL0RATION_DECREASING_DECAY = 0.01    # exploration decreasing decay
+    EXPL0RATION_DECREASING_DECAY = 0.008    # exploration decreasing decay
  
     # string to save files
     string = "MODELS/DPENDULUM/"
@@ -65,7 +65,7 @@ actuator_dim = 1 	# actuator dimension
 training = True
 
 # path to save the network and the log
-string += "TEST_01"
+string += "TEST_no_cost_u"
 save_model = string + '/model.h5' 	# path to save the network
 save_log = string + '/log.txt' 		# path to save the log
 save_reward = string + '/reward.dat' # path to save the reward

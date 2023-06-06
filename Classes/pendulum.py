@@ -166,7 +166,8 @@ class Pendulum:
             pin.computeAllTerms(self.model,self.data,q,v)
             M   = self.data.M
             b   = self.data.nle
-            a   = np.dot(inv(M),(u-self.Kf*v-b))
+            # a   = np.dot(inv(M),(u-self.Kf*v-b))
+            a = inv(M)@((u-self.Kf*v)-b)
             a   = a.reshape(self.nv) + np.random.randn(self.nv)*self.noise_stddev
             self.a = a
             # integration of the acceleration
@@ -175,7 +176,8 @@ class Pendulum:
             # definition of the cost function:
             # we desire to be in the upright position with zero velocity and zero torque ideally
             # cost += (sumsq(q) + 1e-1*sumsq(v) + 1e-3*sumsq(u))*DT # cost function
-            cost += (sumsq(q) + 1e-3*sumsq(v) + 1e-5*sumsq(u))*DT # cost function
+            cost += (sumsq(q) + 1e-1*sumsq(v) + 0*sumsq(u))*DT # cost function
+            # cost += (sumsq(q) + 1e-3*sumsq(v) + 1e-8*sumsq(u))*DT # cost function
             if display:
                 self.display(q)
                 time.sleep(1e-4)
