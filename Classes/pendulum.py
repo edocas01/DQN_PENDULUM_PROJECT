@@ -175,8 +175,8 @@ class Pendulum:
             v    += a*DT
             # definition of the cost function:
             # we desire to be in the upright position with zero velocity and zero torque ideally
-            # cost += (sumsq(q) + 1e-1*sumsq(v) + 1e-3*sumsq(u))*DT # cost function
-            cost += (sumsq(q) + 1e-1*sumsq(v) + 0*sumsq(u))*DT # cost function
+            cost += (sumsq(q) + 1e-1*sumsq(v) + 1e-3*sumsq(u))*DT # cost function
+            # cost += (sumsq(q) + 1e-1*sumsq(v) + 0*sumsq(u))*DT # cost function
             # cost += (sumsq(q) + 1e-3*sumsq(v) + 1e-8*sumsq(u))*DT # cost function
             if display:
                 self.display(q)

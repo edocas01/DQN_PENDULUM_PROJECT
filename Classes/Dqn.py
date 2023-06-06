@@ -207,13 +207,12 @@ class DQN:
             U_hist.append(self.dpendulum.u_values[u_index])
             # U_hist.append(u_index)
         
+        X_hist = np.reshape(X_hist,(config.LENGTH_EPISODE,config.state_dim))
+        X_hist = X_hist.T   
         if config.TYPE_PENDULUM == 0:
-            X_hist = np.concatenate(X_hist, axis = 1)
             print("Real cost to go of state", x0[0], x0[1], ":", reward)
             print("Final state:", x[0], x[1])
         else:
-            X_hist = np.reshape(X_hist,(config.LENGTH_EPISODE,config.state_dim))
-            X_hist = X_hist.T   
             print("Real cost to go of state", x0[0], x0[1], x0[2], x0[3],":", reward)
             print("Final state:", x[0], x[1], x0[2], x0[3])
             

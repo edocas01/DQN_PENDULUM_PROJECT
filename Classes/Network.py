@@ -50,6 +50,10 @@ class Network:
       state_out3 = layers.Dense(64, activation="relu")(state_out2) 
       state_out4 = layers.Dense(64, activation="relu")(state_out3)
       outputs = layers.Dense(1)(state_out4) 
+      # state_out1 = layers.Dense(16, activation="relu")(inputs) 
+      # state_out2 = layers.Dense(32, activation="relu")(state_out1) 
+      # state_out3 = layers.Dense(64, activation="relu")(state_out2)
+      # outputs = layers.Dense(1)(state_out3)
     else:
       state_out1 = layers.Dense(16, activation="relu")(inputs) 
       state_out2 = layers.Dense(32, activation="relu")(state_out1) 
