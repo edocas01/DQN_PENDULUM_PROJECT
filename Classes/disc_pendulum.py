@@ -15,19 +15,13 @@ class DPendulum:
         self.pendulum.vmax = vMax
         self.pendulum.umax = uMax
         self.nx = self.pendulum.nx # state dimension
-        # self.nv = self.pendulum.nv -> NOT USED??
         self.vMax = vMax     # Max velocity (v in [-vmax,vmax])
         self.dnu = dnu       # Number of discretization steps for joint torque
         self.uMax = uMax     # Max torque (u in [-umax,umax])
         self.dt = dt         # time step
         self.DU = 2*uMax/dnu # discretization resolution for joint torque (for uniform discretization)
         self.u_values = self.define_u() # all possible values taken by the joint torque
-
-    # Continuous to discrete joint torque (not really used, only in initialization for double pendulum)
-    def c2du(self, u):
-        u = np.clip(u,-self.uMax+1e-3,self.uMax-1e-3)
-        return int(np.floor((u+self.uMax)/self.DU))
-    
+   
     # Discrete to continuous joint torque
     def d2cu(self, iu):
         iu = np.clip(iu,0,self.dnu-1) - (self.dnu-1)/2

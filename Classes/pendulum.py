@@ -166,7 +166,6 @@ class Pendulum:
             pin.computeAllTerms(self.model,self.data,q,v)
             M   = self.data.M
             b   = self.data.nle
-            # a   = np.dot(inv(M),(u-self.Kf*v-b))
             a = inv(M)@((u-self.Kf*v)-b)
             a   = a.reshape(self.nv) + np.random.randn(self.nv)*self.noise_stddev
             self.a = a

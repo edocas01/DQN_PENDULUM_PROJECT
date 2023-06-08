@@ -1,7 +1,7 @@
 import os
 
 # Configuration file for the DQN algorithm
-TYPE_PENDULUM = 0 # 0: simple pendulum, 1: double pendulum
+TYPE_PENDULUM = 1 # 0: simple pendulum, 1: double pendulum
 
 
 # Single pendulum parameters
@@ -62,10 +62,10 @@ else:
 actuator_dim = 1 	# actuator dimension
 
 # FLag to train the network or to evaluate it
-training = False
+training = True
 
 # path to save the network and the log
-string += "TEST_dnu_3"
+string += "AAA"
 save_model = string + '/model.h5' 	# path to save the network
 save_log = string + '/log.txt' 		# path to save the log
 save_reward = string + '/reward.dat' # path to save the reward

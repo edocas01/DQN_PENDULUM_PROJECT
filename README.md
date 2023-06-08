@@ -1,5 +1,5 @@
 # DQN_PENDULUM_PROJECT
-This repository contains the code developed by Edoardo Castioni and Simone Manfredi for the project of the course "Advanced optimization-based robot control" of professor Del Prete. The project consist in the implementation of the DQN algorithm in order to stabilize the inverse pendulum. The whole environment is written in pyhton
+This repository contains the code developed by Edoardo Castioni and Simone Manfredi for the project of the course "Advanced optimization-based robot control" of professor Del Prete. The project consist in the implementation of the DQN algorithm in order to stabilize the inverse pendulum. The whole environment is written in pyhton.
 <p align="center">
 <img src="GIF/video.gif" width="350" height="350"/>
 </p>
@@ -14,7 +14,7 @@ This repository contains the code developed by Edoardo Castioni and Simone Manfr
 
 
 ## Code Management
-The code is mainly divided in classes:
+The code is classes oriented:
 - Pendulum: class for the pendulum model
 - DPendulum: class for the discretized version of the pendulum
 - Network: class containing the Q and Q_target functions
@@ -22,7 +22,7 @@ The code is mainly divided in classes:
 - DQN: class for implementing the whole algorithm
 
 In order to run the code it is necessary to properly configure the "config.py" with all the hyper-parameters of the Dqn algorithm. In addiction
-it is possible to select the "training" flag to choose between two options:
+it is possible to select, both for the single and double pendulum, the "training" flag to choose between two options:
 - perform the training using the Dqn algorithm (and save results in the selected files)
 - load the pre-trained model and evaluate the trained Q function
 
