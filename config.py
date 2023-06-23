@@ -62,7 +62,7 @@ else:
 actuator_dim = 1 	# actuator dimension
 
 # FLag to train the network or to evaluate it
-training = True
+training = False
 
 # path to save the network and the log
 string += "AAA"

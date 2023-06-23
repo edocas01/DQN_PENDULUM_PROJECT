@@ -106,11 +106,16 @@ else:
     plt.savefig(save_figures + string + '.png')
     
     plt.figure() 
-    plt.plot(time, np.cumsum(R)/range(1,len(R)+1) , "k")
     plt.gca().set_xlabel('Episodes')
     plt.gca().set_ylabel('Average reward')
     string = "Average reward over the episodes"
     plt.title(string)
+    if config.TYPE_PENDULUM == 0:
+        window = 10
+    else:
+        window = 20
+    av = np.convolve(R, np.ones(window), 'valid') / window
+    plt.plot(np.arange(0,len(av)),  av, "k")
     plt.plot(time, np.zeros(config.NUM_EPISODE), "r--",linewidth=1.0)
     plt.savefig(save_figures + string + '.png')
     
