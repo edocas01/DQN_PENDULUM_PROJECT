@@ -13,7 +13,7 @@ for i = 1:length(vect_dnu)
     for j = 1:vect_dnu(i)
         tmp(j) = generate_u(iu(j),vect_dnu(i),maxvalue);
     end
-    ll = ['dnu_',num2str(vect_dnu(i))];
+    ll = ['dnu\_',num2str(vect_dnu(i))];
     plot(tmp,i*ones(vect_dnu(i),1),'.','LineWidth',2,'MarkerSize',25,'DisplayName',ll)
     hold on
     plot([-maxvalue,maxvalue],[i,i],'-k','LineWidth',0.08,'HandleVisibility','off')
