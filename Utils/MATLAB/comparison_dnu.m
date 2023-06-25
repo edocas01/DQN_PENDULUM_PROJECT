@@ -18,16 +18,9 @@ for i = 1:length(vect_dnu)
     hold on
     plot([-maxvalue,maxvalue],[i,i],'-k','LineWidth',0.08,'HandleVisibility','off')
 end
-axis('padded')
-legend('Location','best')
-
-
-% plot(u, ones(dnu), '.r','LineWidth',2,'MarkerSize',25)
-% hold on
-% plot([-10,10],[1,1],'-k','LineWidth',0.08)
-% plot(u_u, ones(dnu)+0.2, '.b','LineWidth',2,'MarkerSize',25)
-% plot([-10,10],[1.2,1.2],'-k','LineWidth',0.08)
-% ylim([0.8,3])
+xlim('padded')
+ylim([-2,10])
+legend('Location','east')
 
 
 function u = generate_u(iu, dnu,maxvalue)
