@@ -26,7 +26,9 @@ it is possible to select, both for the single and double pendulum, the "training
 - perform the training using the Dqn algorithm (and save results in the selected files)
 - load the pre-trained model and evaluate the trained Q function
 
-Once everithing is setted, it is sufficient to run the "main.py"
+Once everithing is setted, it is sufficient to run the "main.py".
 
+In the folder "VIDEO" are collected only the video of the tests explained in the report. 
+In the folder "MODELS" there are already ready models with corresponding figures/video and which can be easily testes.
 
 

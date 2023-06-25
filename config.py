@@ -9,7 +9,7 @@ if TYPE_PENDULUM == 0:
     # Environment parameters
     
     nbJoint = 1 	# number of joints
-    dnu = 91		# discretization of the torque
+    dnu = 17		# discretization of the torque
     vMax = 5.0 		# max velocity
     uMax = 5 		# max torque
     state_dim = 2 	# state dimension
@@ -65,7 +65,7 @@ actuator_dim = 1 	# actuator dimension
 training = False
 
 # path to save the network and the log
-string += "TEST_dnu_91"
+string += "TEST_dnu_17"
 save_model = string + '/model.h5' 	# path to save the network
 save_log = string + '/log.txt' 		# path to save the log
 save_reward = string + '/reward.dat' # path to save the reward
