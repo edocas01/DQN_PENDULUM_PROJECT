@@ -50,7 +50,7 @@ else:
         plt.plot(time, X[0,:], "k")
         plt.gca().set_xlabel('Iteration')
         plt.gca().set_ylabel('Joint angle [rad]')
-        string = "Joint poistion over an episode"
+        string = "Joint position over an episode"
         plt.title(string)
         plt.plot(time, np.zeros(config.LENGTH_EPISODE), "r--",linewidth=1.0)
         plt.savefig(save_figures + string + '.png')
