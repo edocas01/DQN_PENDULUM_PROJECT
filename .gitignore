@@ -1,7 +1,7 @@
 .asv
 .vscode
 *.DS_Store
-MODELS/
+# MODELS/
 ESEMPI/
 __pycache__/
 ORC_FOLDER/

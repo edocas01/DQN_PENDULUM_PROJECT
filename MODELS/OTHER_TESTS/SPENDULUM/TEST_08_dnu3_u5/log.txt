@@ -1,0 +1,104 @@
+--> PENDULUM PARAMETERS <--
+TYPE_PENDULUM = 0
+state_dim = 2
+nbJoint = 1
+dnu = 3
+vMax = 5.0
+uMax = 5
+actuator_dim = 1
+
+--> NETWORK PARAMETERS <--
+DISCOUNT = 0.99
+QVALUE_LEARNING_RATE = 0.001
+BUFFER_SIZE = 20000
+MINI_BATCH_SIZE = 64
+MIN_EXPERIENCE_BUFFER_SIZE = 200
+NUM_EPISODE = 80
+LENGTH_EPISODE = 100
+C_UPDATE = 250
+EXPLORATION_MIN_PROB = 0.001
+EXPL0RATION_DECREASING_DECAY = 0.03
+
+--> SAVE LOG <--
+Episode:  0  Reward: -80.13  Time:  0.064  Epsilon: 1
+Episode:  1  Reward: -81.28  Time:  0.135  Epsilon: 0.9704
+Episode:  2  Reward: -87.3  Time:  26.762  Epsilon: 0.9418
+Episode:  3  Reward: -75.49  Time:  27.277  Epsilon: 0.9139
+Episode:  4  Reward: -70.92  Time:  25.983  Epsilon: 0.8869
+Episode:  5  Reward: -84.61  Time:  23.654  Epsilon: 0.8607
+Episode:  6  Reward: -79.22  Time:  24.227  Epsilon: 0.8353
+Episode:  7  Reward: -64.72  Time:  25.949  Epsilon: 0.8106
+Episode:  8  Reward: -69.73  Time:  29.017  Epsilon: 0.7866
+Episode:  9  Reward: -76.18  Time:  27.686  Epsilon: 0.7634
+Episode:  10  Reward: -61.62  Time:  24.007  Epsilon: 0.7408
+Episode:  11  Reward: -62.24  Time:  24.155  Epsilon: 0.7189
+Episode:  12  Reward: -62.57  Time:  25.242  Epsilon: 0.6977
+Episode:  13  Reward: -55.44  Time:  23.894  Epsilon: 0.6771
+Episode:  14  Reward: -60.37  Time:  22.94  Epsilon: 0.657
+Episode:  15  Reward: -61.5  Time:  22.716  Epsilon: 0.6376
+Episode:  16  Reward: -54.39  Time:  23.482  Epsilon: 0.6188
+Episode:  17  Reward: -62.58  Time:  24.473  Epsilon: 0.6005
+Episode:  18  Reward: -57.72  Time:  24.889  Epsilon: 0.5827
+Episode:  19  Reward: -50.78  Time:  24.876  Epsilon: 0.5655
+Episode:  20  Reward: -48.26  Time:  24.408  Epsilon: 0.5488
+Episode:  21  Reward: -68.4  Time:  24.124  Epsilon: 0.5326
+Episode:  22  Reward: -50.08  Time:  23.083  Epsilon: 0.5169
+Episode:  23  Reward: -52.04  Time:  24.2  Epsilon: 0.5016
+Episode:  24  Reward: -55.21  Time:  23.902  Epsilon: 0.4868
+Episode:  25  Reward: -57.88  Time:  22.877  Epsilon: 0.4724
+Episode:  26  Reward: -59.77  Time:  23.187  Epsilon: 0.4584
+Episode:  27  Reward: -59.74  Time:  23.184  Epsilon: 0.4449
+Episode:  28  Reward: -53.86  Time:  23.257  Epsilon: 0.4317
+Episode:  29  Reward: -42.06  Time:  22.805  Epsilon: 0.419
+Episode:  30  Reward: -40.94  Time:  23.825  Epsilon: 0.4066
+Episode:  31  Reward: -20.11  Time:  22.401  Epsilon: 0.3946
+Episode:  32  Reward: -62.83  Time:  23.111  Epsilon: 0.3829
+Episode:  33  Reward: -45.71  Time:  22.655  Epsilon: 0.3716
+Episode:  34  Reward: -27.81  Time:  28.055  Epsilon: 0.3606
+Episode:  35  Reward: -37.63  Time:  23.398  Epsilon: 0.3499
+Episode:  36  Reward: -42.38  Time:  24.076  Epsilon: 0.3396
+Episode:  37  Reward: -49.64  Time:  24.016  Epsilon: 0.3296
+Episode:  38  Reward: -55.86  Time:  23.136  Epsilon: 0.3198
+Episode:  39  Reward: -36.3  Time:  24.282  Epsilon: 0.3104
+Episode:  40  Reward: -36.13  Time:  23.454  Epsilon: 0.3012
+Episode:  41  Reward: -28.08  Time:  24.453  Epsilon: 0.2923
+Episode:  42  Reward: -41.08  Time:  22.861  Epsilon: 0.2837
+Episode:  43  Reward: -52.97  Time:  25.113  Epsilon: 0.2753
+Episode:  44  Reward: -33.05  Time:  23.868  Epsilon: 0.2671
+Episode:  45  Reward: -34.83  Time:  23.15  Epsilon: 0.2592
+Episode:  46  Reward: -30.26  Time:  24.11  Epsilon: 0.2516
+Episode:  47  Reward: -48.93  Time:  23.103  Epsilon: 0.2441
+Episode:  48  Reward: -44.87  Time:  22.824  Epsilon: 0.2369
+Episode:  49  Reward: -29.06  Time:  23.323  Epsilon: 0.2299
+Episode:  50  Reward: -37.53  Time:  22.88  Epsilon: 0.2231
+Episode:  51  Reward: -37.88  Time:  23.634  Epsilon: 0.2165
+Episode:  52  Reward: -15.45  Time:  22.917  Epsilon: 0.2101
+Episode:  53  Reward: -38.33  Time:  23.734  Epsilon: 0.2039
+Episode:  54  Reward: -27.82  Time:  23.667  Epsilon: 0.1979
+Episode:  55  Reward: -25.09  Time:  24.958  Epsilon: 0.192
+Episode:  56  Reward: -18.14  Time:  23.519  Epsilon: 0.1864
+Episode:  57  Reward: -29.16  Time:  23.528  Epsilon: 0.1809
+Episode:  58  Reward: -29.94  Time:  22.986  Epsilon: 0.1755
+Episode:  59  Reward: -16.23  Time:  23.591  Epsilon: 0.1703
+Episode:  60  Reward: -23.9  Time:  22.957  Epsilon: 0.1653
+Episode:  61  Reward: -30.03  Time:  22.538  Epsilon: 0.1604
+Episode:  62  Reward: -37.08  Time:  23.684  Epsilon: 0.1557
+Episode:  63  Reward: -36.22  Time:  24.209  Epsilon: 0.1511
+Episode:  64  Reward: -27.72  Time:  25.563  Epsilon: 0.1466
+Episode:  65  Reward: -23.52  Time:  25.128  Epsilon: 0.1423
+Episode:  66  Reward: -21.65  Time:  22.944  Epsilon: 0.1381
+Episode:  67  Reward: -26.04  Time:  23.286  Epsilon: 0.134
+Episode:  68  Reward: -13.72  Time:  23.005  Epsilon: 0.13
+Episode:  69  Reward: -23.91  Time:  23.455  Epsilon: 0.1262
+Episode:  70  Reward: -20.3  Time:  23.66  Epsilon: 0.1225
+Episode:  71  Reward: -14.01  Time:  23.545  Epsilon: 0.1188
+Episode:  72  Reward: -22.27  Time:  22.922  Epsilon: 0.1153
+Episode:  73  Reward: -24.61  Time:  23.368  Epsilon: 0.1119
+Episode:  74  Reward: -11.19  Time:  23.25  Epsilon: 0.1086
+Episode:  75  Reward: -10.76  Time:  23.36  Epsilon: 0.1054
+Episode:  76  Reward: -21.32  Time:  23.176  Epsilon: 0.1023
+Episode:  77  Reward: -18.49  Time:  24.221  Epsilon: 0.09926
+Episode:  78  Reward: -16.13  Time:  24.285  Epsilon: 0.09633
+Episode:  79  Reward: -38.63  Time:  25.198  Epsilon: 0.09348
+
+Total training time:  1870.8370000000004  seconds ( 31.180616666666673  minutes)

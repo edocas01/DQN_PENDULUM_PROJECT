@@ -1,0 +1,2 @@
+cost = cost += (sumsq(q) + 1e-1*sumsq(v) + 0*sumsq(u))*DT # cost function
+
